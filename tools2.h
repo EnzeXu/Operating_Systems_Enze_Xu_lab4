@@ -9,12 +9,15 @@
  
 #define SERVER_TYPE 1
 #define CLIENT_TYPE 2
+
+#define MAXSIZE 2048
  
 struct msgbuf
 {
 	long mtype;
-	char mtext[1024];
+	char mtext[MAXSIZE];
 };
+void die(char *s);
 int CreateMsgQueue();//创建消息队列
 int GetMsgQueue();//接受消息队列
 int DestroyMsgQueue(int msgid);//销毁消息队列
@@ -25,7 +28,12 @@ int RecvMsg(int msgid,int recvType,char out[]);//接受消息
 
  
 //success > 0    failed == -1
- 
+
+void die(char *s) {
+	perror(s);
+	exit(1);
+}
+
 static int CommMsgQueue(int flags)
 {
 	key_t key = ftok(PATHNAME,PROJ_ID);
@@ -63,7 +71,8 @@ int SendMsg(int msgid,int who,char* msg)
 	struct msgbuf buf;
 	buf.mtype = who;
 	strcpy(buf.mtext,msg);
-	if(msgsnd(msgid,(void*)&buf,sizeof(buf.mtext),0) < 0)
+	size_t buflen = strlen(buf.mtext) + 1
+	if(msgsnd(msgid, &buf,buflen,IPC_NOWAIT) < 0)
 	{
 		perror("msgsnd");
 		return -1;
@@ -73,7 +82,8 @@ int SendMsg(int msgid,int who,char* msg)
 int RecvMsg(int msgid,int recvType,char out[])
 {
 	struct msgbuf buf;
-	if(msgrcv(msgid,(void*)&buf,sizeof(buf.mtext),recvType,0) < 0)
+	//size_t buflen = strlen(buf.mtext) + 1
+	if(msgrcv(msgid, &buf, MAXSIZE, recvType,0) < 0)
 	{
 		perror("msgrcv");
 		return -1;
