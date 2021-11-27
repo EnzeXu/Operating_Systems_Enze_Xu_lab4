@@ -8,21 +8,27 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-
-#define PROJ 0x6666
+#define PROJ 2021
 #define SERVER_TYPE 1
 #define CLIENT_TYPE 2
+#define MAXSIZE 128
 
 struct msgbuf {
 	long mtype;
-	char mtext[1024];
+	char mtext[MAXSIZE];
 };
 
+void die(char *s);
 int CreateMsgQueue();
 int GetMsgQueue();
 int DestroyMsgQueue(int msgid);
 int SendMsg(int msgid, int who, char* msg);
 int RecvMsg(int msgid, int recvType, char out[]);
+
+void die(char *s) {
+	perror(s);
+	exit(1);
+}
 
 static int CommMsgQueue(int flags) {
 	key_t key = ftok(".", PROJ);
@@ -38,7 +44,7 @@ static int CommMsgQueue(int flags) {
 }
 
 int CreateMsgQueue() {
-	return CommMsgQueue(IPC_CREAT | IPC_EXCL | 0660);
+	return CommMsgQueue(IPC_CREAT | IPC_EXCL | 0666);
 }
 
 int GetMsgQueue() {
@@ -53,11 +59,12 @@ int DestroyMsgQueue(int msgid) {
 	return 0;
 }
 
-int SendMsg(int msgid, int who, char* msg) {
+int SendMsg(int msgid, int who, char *msg) {
 	struct msgbuf buf;
 	buf.mtype = who;
 	strcpy(buf.mtext, msg);
-	if (msgsnd(msgid, (void*)&buf, sizeof(buf.mtext), 0) < 0) {
+	size_t buflen = strlen(buf.mtext) + 1;
+	if(msgsnd(msgid, &buf, buflen, IPC_NOWAIT) < 0) {
 		perror("msgsnd");
 		return -1;
 	}
@@ -66,7 +73,8 @@ int SendMsg(int msgid, int who, char* msg) {
 
 int RecvMsg(int msgid, int recvType, char out[]) {
 	struct msgbuf buf;
-	if (msgrcv(msgid, (void*) &buf, sizeof(buf.mtext), recvType, 0) < 0) {
+	//size_t buflen = strlen(buf.mtext) + 1;
+	if(msgrcv(msgid, &buf, MAXSIZE, recvType,0) < 0) {
 		perror("msgrcv");
 		return -1;
 	}
