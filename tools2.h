@@ -14,7 +14,7 @@
 #define SERVER_TYPE 1
 #define CLIENT_TYPE 2
 
-#define MAXSIZE 2048
+#define MAXSIZE 1024
  
 struct msgbuf
 {
