@@ -8,7 +8,7 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#define PROJ 0x6666
+#define PROJ 0x2021
 #define SERVER_TYPE 1
 #define CLIENT_TYPE 2
 #define MAXSIZE 128
@@ -30,7 +30,7 @@ void die(char *s) {
 	exit(1);
 }
 
-static int CommMsgQueue(int flags) {
+int CommMsgQueue(int flags) {
 	key_t key = ftok(".", PROJ);
 	if (key < 0) {
 		perror("ftok");
