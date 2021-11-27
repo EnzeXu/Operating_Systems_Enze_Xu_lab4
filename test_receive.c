@@ -14,7 +14,7 @@ int main()
 		printf("Please Enter# ");
 		fflush(stdout);
 		ssize_t s = read(0,buf,sizeof(buf));
-		print("receive buf = \"%s\"\n", buf);
+		printf("receive buf = \"%s\"\n", buf);
 		if(s > 0)
 		{
 			buf[s-1] = 0;
