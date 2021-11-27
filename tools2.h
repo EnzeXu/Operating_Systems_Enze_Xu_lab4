@@ -71,7 +71,7 @@ int SendMsg(int msgid,int who,char* msg)
 	struct msgbuf buf;
 	buf.mtype = who;
 	strcpy(buf.mtext,msg);
-	size_t buflen = strlen(buf.mtext) + 1
+	size_t buflen = strlen(buf.mtext) + 1;
 	if(msgsnd(msgid, &buf,buflen,IPC_NOWAIT) < 0)
 	{
 		perror("msgsnd");
@@ -82,7 +82,7 @@ int SendMsg(int msgid,int who,char* msg)
 int RecvMsg(int msgid,int recvType,char out[])
 {
 	struct msgbuf buf;
-	//size_t buflen = strlen(buf.mtext) + 1
+	//size_t buflen = strlen(buf.mtext) + 1;
 	if(msgrcv(msgid, &buf, MAXSIZE, recvType,0) < 0)
 	{
 		perror("msgrcv");
