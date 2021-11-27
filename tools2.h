@@ -8,7 +8,7 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#define MAXSIZE 1024
+#define MAXSIZE 0x6666
 #define PROJ 2021
 #define SERVER_TYPE 1
 #define CLIENT_TYPE 2
