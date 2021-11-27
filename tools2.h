@@ -45,7 +45,7 @@ static int CommMsgQueue(int flags) {
 }
 
 int CreateMsgQueue() {
-	return CommMsgQueue(IPC_CREAT | IPC_EXCL | 0660);
+	return CommMsgQueue(IPC_CREAT | IPC_EXCL | 0666);
 }
 
 int GetMsgQueue() {
