@@ -1,25 +1,24 @@
-//client.c
 #include "tools2.h"
- 
+
 int main()
 {
 	int msgid = GetMsgQueue();
-	char buf [1024];
+	char sbuf[MAXSIZE];
 	while(1)
 	{
-		buf[0] = 0;
+		sbuf[0] = 0;
 		printf("Please Enter# ");
 		fflush(stdout);
-		ssize_t s = read(0, buf, sizeof(buf));
-		printf("send buf = \"%s\"\n", buf);
+		ssize_t s = read(0, sbuf, sizeof(sbuf));
+		printf("send buffer = \"%s\"\n", sbuf);
 		if (s > 0) {
-			buf[s - 1] = 0;
-			SendMsg(msgid,CLIENT_TYPE,buf);
+			sbuf[s - 1] = 0;
+			SendMsg(msgid,CLIENT_TYPE,sbuf);
 			printf("send done,wait recv ...\n");
 		}
  
-		RecvMsg(msgid,SERVER_TYPE,buf);
-    	printf("server# %s\n",buf);
+		RecvMsg(msgid,SERVER_TYPE,sbuf);
+    	printf("server# %s\n",sbuf);
 	}
 	return 0;
 }
