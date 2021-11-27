@@ -1,8 +1,12 @@
-#include<stdio.h>
-#include<sys/types.h>
-#include<sys/ipc.h>
-#include<sys/msg.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
+#include <memory.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
  
 #define PATHNAME "."
 #define PROJ_ID 0x6666
