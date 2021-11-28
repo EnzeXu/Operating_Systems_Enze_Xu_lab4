@@ -5,7 +5,7 @@ int main()
 	int msgid = attachMessageQueue();
 	printf("attaching to msgid = %d successfully\n", msgid);
 	//char sbuf[MAXSIZE];
-	int z = 3;
+	int z = 10;
 	for (int i = 1; i <= z; ++i) {
 		printf("send[%d]: ", i);
 		int n;
