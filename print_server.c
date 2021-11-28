@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 			}
 			if (flag) break;
 		}
+	}
 	else {
 		int status;
 		pid_t wait_pid = waitpid(pid_ready, &status, 0);
