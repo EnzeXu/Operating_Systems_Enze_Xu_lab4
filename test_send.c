@@ -1,4 +1,4 @@
-#include "tools.h"
+#include "test_tools.h"
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
 		ssize_t s = read(0, sbuf, sizeof(sbuf));
 		if (s > 0) {
 			sbuf[s - 1] = 0;
-			sendMessage(msgid, CLIENT_TYPE, sbuf);
+			sendMessage(msgid, REQUEST, sbuf);
 		}
 	}
 	return 0;
