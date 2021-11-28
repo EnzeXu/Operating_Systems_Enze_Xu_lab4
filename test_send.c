@@ -7,7 +7,6 @@ int main()
 	char sbuf[MAXSIZE];
 	int z = 3;
 	for (int i = 1; i <= z; ++i) {
-		sbuf[0] = 0;
 		printf("send[%d]: ", i);
 		fflush(stdout);
 		ssize_t s = read(0, sbuf, sizeof(sbuf));
