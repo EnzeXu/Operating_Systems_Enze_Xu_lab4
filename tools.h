@@ -25,7 +25,7 @@ int createMessageQueue();
 int attachMessageQueue();
 int removeMessageQueue(int msgid);
 int sendMessage(int msgid, int mtype, int source, int snum);
-struct msgbuf receiveMessage(int msgid, int receiveType);
+int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf);
 
 void die(char *s) {
 	perror(s);
@@ -77,15 +77,16 @@ int sendMessage(int msgid, int mtype, int source, int snum) {
 	return 0;
 }
 
-struct msgbuf receiveMessage(int msgid, int receiveType) {
+int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, &sbuf, MAXSIZE, receiveType, 0) < 0) {
+	if (msgrcv(msgid, &sbuf, sizeof(sbuf), receiveType, 0) < 0) {
 		die("msgrcv");
-		sbuf.mtype = -1;
-		return sbuf;
+		return -1;
 	}
-	printf("(type = %ld) ", sbuf.mtype);
+	outputBuf->mtype = sbuf.mtype;
+	outputBuf->source = sbuf.source;
+	outputBuf->snum = sbuf.snum;
 	//strcpy(outputBuf, sbuf.mtext);
-	return sbuf;
+	return 0;
 }

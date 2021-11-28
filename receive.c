@@ -9,7 +9,7 @@ int main()
 	for (int i = 1; i <= z; ++i) {
 		printf("waiting...\n");
 		struct msgbuf sbuf;
-		sbuf = receiveMessage(msgid, REQUEST);
+		receiveMessage(msgid, REQUEST, &sbuf);
 		printf("receive[%d]: %d %d %d\n", i, sbuf.mtype, sbuf.source, sbuf.snum);
 	}
 	removeMessageQueue(msgid);
