@@ -82,7 +82,7 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	printf("start receiving...\n");
 	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, outputBuf, sizeof(sbuf), receiveType, 0) < 0) {
+	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf), receiveType, 0) < 0) {
 		die("msgrcv");
 		return -1;
 	}
