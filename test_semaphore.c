@@ -14,10 +14,10 @@ int main()
 		{
 			P(semid, 1, -1);
 			printf("A");
-			fflush(stdout);
-			usleep(10000);
-			printf("A");
-			fflush(stdout);
+			//fflush(stdout);
+			//usleep(10000);
+			//printf("A");
+			//fflush(stdout);
 			usleep(10000);
 			V(semid, 1, 1);
 		}
@@ -27,13 +27,13 @@ int main()
 		while (1)
 		{
 			P(semid, 1, -1);
-			usleep(10000);
+			//usleep(10000);
 			printf("B");
-			fflush(stdout);
+			//fflush(stdout);
 			usleep(10000);
-			printf("B");
-			fflush(stdout);
-			usleep(10000);
+			//printf("B");
+			//fflush(stdout);
+			//usleep(10000);
 			V(semid, 1, 1);
 		}
 		if (waitpid(id, NULL, 0) < 0)
