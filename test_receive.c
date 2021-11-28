@@ -8,7 +8,7 @@ int main()
 	int z = 3;
 	for (int i = 1; i <= z; ++i) {
 		printf("waiting...\n");
-		receiveMessage(msgid, CLIENT_TYPE, sbuf);
+		receiveMessage(msgid, REQUEST, sbuf);
 		printf("receive[%d]: %s\n", i, sbuf);
 	}
 	removeMessageQueue(msgid);
