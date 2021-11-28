@@ -7,14 +7,14 @@ int main()
 	initSem(semid, 0, 1);
 	initSem(semid, 1, 2);
 	pid_t id = fork();
-	if (id == 0)
-	{//child
+	int z = 100;
+	if (id == 0) {//child
 		int semid = attachSemid(0);
-		while (1)
+		while (z--)
 		{
 			P(semid, 1, -1);
 			printf("A");
-			//fflush(stdout);
+			fflush(stdout);
 			//usleep(10000);
 			//printf("A");
 			//fflush(stdout);
@@ -22,14 +22,13 @@ int main()
 			V(semid, 1, 1);
 		}
 	}
-	else
-	{//father
-		while (1)
+	else {//father
+		while (z--)
 		{
 			P(semid, 1, -1);
 			//usleep(10000);
 			printf("B");
-			//fflush(stdout);
+			fflush(stdout);
 			usleep(10000);
 			//printf("B");
 			//fflush(stdout);
