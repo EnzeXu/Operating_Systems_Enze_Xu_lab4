@@ -15,7 +15,8 @@
 
 struct msgbuf {
 	long mtype;
-	char mtext[MAXSIZE];
+	int source;
+	int snum;
 };
 
 void die(char *s);
@@ -62,19 +63,21 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int sender, char *msg) {
+int sendMessage(int msgid, int mtype, int source, int snum) {
 	struct msgbuf sbuf;
-	sbuf.mtype = sender;
-	strcpy(sbuf.mtext, msg);
-	size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgsnd(msgid, &sbuf, buflen, IPC_NOWAIT) < 0) {
+	sbuf.mtype = mtype;
+	sbuf.source = source;
+	sbuf.snum = snum;
+	// strcpy(sbuf.mtext, msg);
+	// size_t buflen = strlen(sbuf.mtext) + 1;
+	if (msgsnd(msgid, &sbuf, sizeof(sbuf), IPC_NOWAIT) < 0) {
 		die("msgsnd");
 		return -1;
 	}
 	return 0;
 }
 
-int receiveMessage(int msgid, int receiveType, char *outputBuf) {
+struct msgbuf receiveMessage(int msgid, int receiveType) {
 	struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgrcv(msgid, &sbuf, MAXSIZE, receiveType, 0) < 0) {
@@ -82,6 +85,6 @@ int receiveMessage(int msgid, int receiveType, char *outputBuf) {
 		return -1;
 	}
 	printf("(type = %ld) ", sbuf.mtype);
-	strcpy(outputBuf, sbuf.mtext);
-	return 0;
+	//strcpy(outputBuf, sbuf.mtext);
+	return sbuf;
 }
