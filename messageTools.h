@@ -6,6 +6,7 @@ struct msgbuf {
 	int snum;
 };
 
+void dieMsg(char *s);
 int simpleMessageQueue(int flags);
 int createMessageQueue();
 int attachMessageQueue();
@@ -13,15 +14,20 @@ int removeMessageQueue(int msgid);
 int sendMessage(int msgid, int mtype, int source, int snum);
 int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf);
 
+void dieMsg(char *s) {
+	perror(s);
+	exit(1);
+}
+
 int simpleMessageQueue(int flags) {
 	key_t key = ftok(".", PROJ);
 	if (key < 0) {
-		die("ftok");
+		dieMsg("ftok");
 		return -1;
 	}
 	int msgid = msgget(key, flags);
 	if (msgid < 0) {
-		die("msgget");
+		dieMsg("msgget");
 		return -1;
 	}
 	return msgid;
@@ -39,7 +45,7 @@ int attachMessageQueue() {
 
 int removeMessageQueue(int msgid) {
 	if (msgctl(msgid, IPC_RMID, NULL) < 0) {
-		die("msgctl");
+		dieMsg("msgctl");
 		return -1;
 	}
 	return 0;
@@ -54,7 +60,7 @@ int sendMessage(int msgid, int mtype, int source, int snum) {
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgsnd(msgid, &sbuf, sizeof(sbuf), IPC_NOWAIT) < 0) {
-		die("msgsnd");
+		dieMsg("msgsnd");
 		return -1;
 	}
 	return 0;
@@ -65,7 +71,7 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf), receiveType, 0) < 0) {
-		die("msgrcv");
+		dieMsg("msgrcv");
 		return -1;
 	}
 	//printf("here\n");

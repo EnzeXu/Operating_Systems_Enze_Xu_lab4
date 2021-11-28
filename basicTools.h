@@ -20,20 +20,3 @@
 #define MAXSIZE 128
 #define FALSE 0
 #define TRUE 1
-
-void die(char *s);
-void quitHandler(int theInt);
-
-void die(char *s) {
-	perror(s);
-	exit(1);
-}
-
-void quitHandler(int theInt) { // signal handler used to ignore Ctrl-C
-	//fflush(stdin);
-	//printf("\n[Enze Shell] Not QUITTING (SIGINT = %d)\n", theInt);
-	//printf("\n%s %% ", getMainPath());
-	//fflush(stdout);
-	exit(1);
-	return;
-}

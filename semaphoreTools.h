@@ -7,6 +7,7 @@ union semun {
 	struct seminfo *__buf;
 };
 
+void dieSem(char *s);
 int simpleSemid(int num, int flags, int proj);
 int createSemid(int nums, int proj);
 int attachSemid(int nums, int proj);
@@ -16,6 +17,10 @@ int P(int semid, int which, int op);
 int V(int semid, int which, int op);
 int removeSem(int semid, int which);
 
+void dieSem(char *s) {
+	perror(s);
+	exit(1);
+}
 
 int simpleSemid(int num, int flags, int proj) {
 	key_t key = ftok(".", proj);
@@ -23,17 +28,17 @@ int simpleSemid(int num, int flags, int proj) {
 		return semget(key, num, flags);
 	}
 	else {
-		die("simpleSemid");
+		dieSem("simpleSemid");
 		return -1;
 	}
 }
 
 int createSemid(int nums, int proj) {
-	return simpleSemid(nums, IPC_CREAT | IPC_EXCL | 0666, int proj);
+	return simpleSemid(nums, IPC_CREAT | IPC_EXCL | 0666, proj);
 }
 
 int attachSemid(int nums, int proj) {
-	return simpleSemid(nums, IPC_CREAT, int proj);
+	return simpleSemid(nums, IPC_CREAT, proj);
 }
 
 int removeSem(int semid, int which) {
@@ -41,7 +46,7 @@ int removeSem(int semid, int which) {
 		return 0;
 	}
 	else {
-		die("semctl");
+		dieSem("semctl");
 		return -1;
 	}
 }
@@ -50,7 +55,7 @@ int initSem(int semid, int which, int val) {
 	union semun su;
 	su.val = val;
 	if (semctl(semid, which, SETVAL, su) < 0) {
-		die("semctl");
+		dieSem("semctl");
 		return -1;
 	}
 	return 0;
@@ -66,7 +71,7 @@ int setSem(int semid, int which, int op) {
 
 int P(int semid, int which, int op) {
 	if (setSem(semid, which, op) < 0) {
-		die("P");
+		dieSem("P");
 		return -1;
 	}
 	return 0;
@@ -74,7 +79,7 @@ int P(int semid, int which, int op) {
 
 int V(int semid, int which, int op) {
 	if (setSem(semid, which, op) < 0) {
-		die("V");
+		dieSem("V");
 		return -1;
 	}
 	return 0;
