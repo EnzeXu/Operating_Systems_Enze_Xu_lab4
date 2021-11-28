@@ -38,7 +38,7 @@ int attachSemid(int nums) {
 }
 
 int removeSem(int semid) {
-	if (semctl(semid, 0, IPC_RMID)>0) {
+	if (semctl(semid, 0, IPC_RMID) > 0) {
 		return 0;
 	}
 	else {
