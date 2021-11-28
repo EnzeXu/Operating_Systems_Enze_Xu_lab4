@@ -11,11 +11,11 @@ void dieSem(char *s);
 int simpleSemid(int num, int flags, int proj);
 int createSemid(int nums, int proj);
 int attachSemid(int nums, int proj);
-int initSem(int semid, int which, int val);
-int setSem(int semid, int which, int op);
-int P(int semid, int which, int op);
-int V(int semid, int which, int op);
-int removeSem(int semid, int which);
+int initSem(int semid, int semnum, int val);
+int setSem(int semid, int semnum, int op);
+int P(int semid, int semnum, int op);
+int V(int semid, int semnum, int op);
+int removeSem(int semid, int semnum);
 
 void dieSem(char *s) {
 	perror(s);
@@ -41,8 +41,10 @@ int attachSemid(int nums, int proj) {
 	return simpleSemid(nums, IPC_CREAT, proj);
 }
 
-int removeSem(int semid, int which) {
-	if (semctl(semid, which, IPC_RMID) > 0) {
+int removeSem(int semid, int semnum) {
+	int retCode = semctl(semid, semnum, IPC_RMID);
+	if (retCode > 0) {
+		printf("removing semid = %d, semnum = %d successfully, return code = %d\n", semid, semnum, retCode);
 		return 0;
 	}
 	else {
@@ -51,34 +53,34 @@ int removeSem(int semid, int which) {
 	}
 }
 
-int initSem(int semid, int which, int val) {
+int initSem(int semid, int semnum, int val) {
 	union semun su;
 	su.val = val;
-	if (semctl(semid, which, SETVAL, su) < 0) {
+	if (semctl(semid, semnum, SETVAL, su) < 0) {
 		dieSem("semctl");
 		return -1;
 	}
 	return 0;
 }
 
-int setSem(int semid, int which, int op) {
+int setSem(int semid, int semnum, int op) {
 	struct sembuf sb;
-	sb.sem_num = which;
+	sb.sem_num = semnum;
 	sb.sem_op = op;
 	sb.sem_flg = 0;
 	return semop(semid, &sb, 1);
 }
 
-int P(int semid, int which, int op) {
-	if (setSem(semid, which, op) < 0) {
+int P(int semid, int semnum, int op) {
+	if (setSem(semid, semnum, op) < 0) {
 		dieSem("P");
 		return -1;
 	}
 	return 0;
 }
 
-int V(int semid, int which, int op) {
-	if (setSem(semid, which, op) < 0) {
+int V(int semid, int semnum, int op) {
+	if (setSem(semid, semnum, op) < 0) {
 		dieSem("V");
 		return -1;
 	}
