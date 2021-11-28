@@ -12,21 +12,21 @@ int main()
 		int semid = attachSemid(0);
 		while (1)
 		{
-			P(semid, 0, -1);
+			P(semid, 1, -1);
 			printf("A");
 			fflush(stdout);
 			usleep(10000);
 			printf("A");
 			fflush(stdout);
 			usleep(10000);
-			V(semid, 0, 1);
+			V(semid, 1, 1);
 		}
 	}
 	else
 	{//father
 		while (1)
 		{
-			P(semid, 0, -1);
+			P(semid, 1, -1);
 			usleep(10000);
 			printf("B");
 			fflush(stdout);
@@ -34,7 +34,7 @@ int main()
 			printf("B");
 			fflush(stdout);
 			usleep(10000);
-			V(semid, 0, 1);
+			V(semid, 1, 1);
 		}
 		if (waitpid(id, NULL, 0) < 0)
 		{
