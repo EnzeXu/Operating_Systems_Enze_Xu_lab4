@@ -15,6 +15,7 @@ int main()
 
 		sendMessage(msgid, REQUEST, n, n);
 		printf("finish sending\n");
+		if (n == 0) break;
 	}
 	return 0;
 }

@@ -12,7 +12,7 @@ int main()
 		receiveMessage(msgid, REQUEST, &sbuf);
 		printf("finish receiving\n");
 		printf("receive[%d]: %d %d %d\n", i, sbuf.mtype, sbuf.source, sbuf.snum);
-		if (sbuf.mtype == 0) break;
+		if (sbuf.source == 0) break;
 	}
 	removeMessageQueue(msgid);
 	return 0;
