@@ -6,6 +6,7 @@ int main()
 	printf("%d\n", semid);
 	initSem(semid, 0, 1);
 	initSem(semid, 1, 2);
+	/*
 	pid_t id = fork();
 	int z = 100;
 	if (id == 0) {//child
@@ -35,13 +36,12 @@ int main()
 			//usleep(10000);
 			V(semid, 1, 1);
 		}
-		if (waitpid(id, NULL, 0) < 0)
-		{
+		if (waitpid(id, NULL, 0) < 0) {
 			perror("waitpid");
 			return -1;
 		}
-
 	}
+	*/
 	removeSem(semid, 0);
 	removeSem(semid, 1);
 	return 0;
