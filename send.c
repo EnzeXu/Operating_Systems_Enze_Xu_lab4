@@ -12,10 +12,8 @@ int main()
 		int n;
 		scanf("%d", &n);
 		//struct msgbuf sbuf;
-		if (s > 0) {
-			sbuf[s - 1] = 0;
-			sendMessage(msgid, REQUEST, n, n);
-		}
+
+		sendMessage(msgid, REQUEST, n, n);
 	}
 	return 0;
 }

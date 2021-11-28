@@ -82,7 +82,8 @@ struct msgbuf receiveMessage(int msgid, int receiveType) {
 	//size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgrcv(msgid, &sbuf, MAXSIZE, receiveType, 0) < 0) {
 		die("msgrcv");
-		return -1;
+		sbuf.mtype = -1;
+		return sbuf;
 	}
 	printf("(type = %ld) ", sbuf.mtype);
 	//strcpy(outputBuf, sbuf.mtext);
