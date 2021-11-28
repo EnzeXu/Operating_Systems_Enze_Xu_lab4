@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 	printf("creating semid_2 = %d successfully\n", semid_2);
 	removeMessageQueue(msgid);
 	removeSem(semid_1, 0);
+	sleep(2);
 	removeSem(semid_2, 0);
 	return 0;
 }
