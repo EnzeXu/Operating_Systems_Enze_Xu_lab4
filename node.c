@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 	//semid = createSemid(2);
 	//request_number = 0;
 	//highest_request_number = 0;
-	sendMessage(msgid, 0, me, 0);
+	sendMessage(msgid, 11, int(me), 888);
 	printf("finished sending ready message\n");
 	return 0;
 }

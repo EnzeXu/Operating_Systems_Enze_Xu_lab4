@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 		int flag;
 		while(1) {
 			struct msgbuf sbuf;
-			receiveMessage(msgid, 0, &sbuf);
+			receiveMessage(msgid, 11, &sbuf);
 			printf("From node %d: I am ready!\n", sbuf.source);
 			ready[sbuf.source] = 1;
 			flag = 1;
