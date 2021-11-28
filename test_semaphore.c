@@ -18,7 +18,7 @@ int main()
 			//usleep(10000);
 			//printf("A");
 			//fflush(stdout);
-			usleep(10000);
+			usleep(3000);
 			V(semid, 1, 1);
 		}
 	}
