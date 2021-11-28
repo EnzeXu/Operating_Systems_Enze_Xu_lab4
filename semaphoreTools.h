@@ -43,7 +43,7 @@ int attachSemid(int nums, int proj) {
 
 int removeSem(int semid, int semnum) {
 	int retCode = semctl(semid, semnum, IPC_RMID);
-	print("retCode = %d\n", retCode);
+	printf("retCode = %d\n", retCode);
 	if (retCode > 0) {
 		printf("removing semid = %d, semnum = %d successfully, return code = %d\n", semid, semnum, retCode);
 		return 0;
