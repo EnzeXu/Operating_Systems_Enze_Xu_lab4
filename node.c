@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 	printf("There are %d nodes in the network\n", N);
 	me = atoi(argv[2]);
 	printf("I am node %d\n", me);
-	msgid = attachMessageQueue();
+	msgid = attachMessageQueue(PROJ_MSG);
 	printf("node %d attaching to msgid = %d successfully\n", me, msgid);
 	//semid = createSemid(2);
 	//request_number = 0;
