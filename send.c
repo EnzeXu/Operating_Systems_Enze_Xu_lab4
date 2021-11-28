@@ -10,9 +10,11 @@ int main()
 		printf("send[%d]: ", i);
 		int n;
 		scanf("%d", &n);
+		printf("n = %d\n", n);
 		//struct msgbuf sbuf;
 
 		sendMessage(msgid, REQUEST, n, n);
+		printf("finish sending\n");
 	}
 	return 0;
 }
