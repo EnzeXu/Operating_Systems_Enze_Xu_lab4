@@ -42,6 +42,7 @@ int main()
 		}
 
 	}
-	removeSem(semid);
+	removeSem(semid, 0);
+	removeSem(semid, 1);
 	return 0;
 }
