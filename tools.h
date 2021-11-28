@@ -19,18 +19,19 @@ struct msgbuf {
 };
 
 void die(char *s);
-int CreateMsgQueue();
-int GetMsgQueue();
-int DestroyMsgQueue(int msgid);
-int SendMsg(int msgid, int who, char* msg);
-int RecvMsg(int msgid, int recvType, char out[]);
+int simpleMessageQueue(int flags);
+int createMessageQueue();
+int attachMessageQueue();
+int removeMessageQueue(int msgid);
+int sendMessage(int msgid, int who, char *msg);
+int receiveMessage(int msgid, int recvType, char out[]);
 
 void die(char *s) {
 	perror(s);
 	exit(1);
 }
 
-int CommMsgQueue(int flags) {
+int simpleMessageQueue(int flags) {
 	key_t key = ftok(".", PROJ);
 	if (key < 0) {
 		perror("ftok");
@@ -38,46 +39,48 @@ int CommMsgQueue(int flags) {
 	}
 	int msgid = msgget(key, flags);
 	if (msgid < 0) {
-		perror("msgget");
+		die("msgget");
 	}
 	return msgid;
 }
 
-int CreateMsgQueue() {
-	return CommMsgQueue(IPC_CREAT | IPC_EXCL | 0666);
+// IPC_CREAT | IPC_EXCL: create exclusive, fails if resource exists
+int createMessageQueue() {
+	return simpleMessageQueue(IPC_CREAT | IPC_EXCL | 0666);
 }
 
-int GetMsgQueue() {
-	return CommMsgQueue(IPC_CREAT);
+// IPC_CREAT: create if it does not exists
+int attachMessageQueue() {
+	return simpleMessageQueue(IPC_CREAT);
 }
 
-int DestroyMsgQueue(int msgid) {
+int removeMessageQueue(int msgid) {
 	if (msgctl(msgid, IPC_RMID, NULL) < 0) {
-		perror("msgctl");
+		die("msgctl");
 		return -1;
 	}
 	return 0;
 }
 
-int SendMsg(int msgid, int who, char *msg) {
-	struct msgbuf buf;
-	buf.mtype = who;
-	strcpy(buf.mtext, msg);
-	size_t buflen = strlen(buf.mtext) + 1;
-	if(msgsnd(msgid, &buf, buflen, IPC_NOWAIT) < 0) {
-		perror("msgsnd");
+int sendMessage(int msgid, int who, char *msg) {
+	struct msgbuf sbuf;
+	sbuf.mtype = who;
+	strcpy(sbuf.mtext, msg);
+	size_t buflen = strlen(sbuf.mtext) + 1;
+	if (msgsnd(msgid, &sbuf, buflen, IPC_NOWAIT) < 0) {
+		die("msgsnd");
 		return -1;
 	}
 	return 0;
 }
 
-int RecvMsg(int msgid, int recvType, char out[]) {
-	struct msgbuf buf;
-	//size_t buflen = strlen(buf.mtext) + 1;
-	if(msgrcv(msgid, &buf, MAXSIZE, recvType,0) < 0) {
-		perror("msgrcv");
+int receiveMessage(int msgid, int recvType, char out[]) {
+	struct msgbuf sbuf;
+	//size_t buflen = strlen(sbuf.mtext) + 1;
+	if (msgrcv(msgid, &sbuf, MAXSIZE, recvType, 0) < 0) {
+		die("msgrcv");
 		return -1;
 	}
-	strcpy(out, buf.mtext);
+	strcpy(out, sbuf.mtext);
 	return 0;
 }

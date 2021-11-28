@@ -2,23 +2,19 @@
 
 int main()
 {
-	int msgid = GetMsgQueue();
+	int msgid = attachMessageQueue();
+	printf("attaching to msgid = %d successfully\n", msgid);
 	char sbuf[MAXSIZE];
-	while(1)
-	{
+	int z = 3;
+	for (int i = 1; i <= z; ++i) {
 		sbuf[0] = 0;
-		printf("Please Enter# ");
+		printf("send[%d]: ", i);
 		fflush(stdout);
 		ssize_t s = read(0, sbuf, sizeof(sbuf));
-		printf("send buffer = \"%s\"\n", sbuf);
 		if (s > 0) {
 			sbuf[s - 1] = 0;
-			SendMsg(msgid,CLIENT_TYPE,sbuf);
-			printf("send done,wait recv ...\n");
+			sendMessage(msgid, CLIENT_TYPE, sbuf);
 		}
- 
-		RecvMsg(msgid,SERVER_TYPE,sbuf);
-    	printf("server# %s\n",sbuf);
 	}
 	return 0;
 }
