@@ -24,8 +24,8 @@ int simpleMessageQueue(int flags);
 int createMessageQueue();
 int attachMessageQueue();
 int removeMessageQueue(int msgid);
-int sendMessage(int msgid, int who, char *msg);
-int receiveMessage(int msgid, int recvType, char out[]);
+int sendMessage(int msgid, int mtype, int source, int snum);
+struct msgbuf receiveMessage(int msgid, int receiveType);
 
 void die(char *s) {
 	perror(s);
