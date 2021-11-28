@@ -15,7 +15,7 @@ int initSem(int semid, int which, int val);
 static int setSem(int semid, int which, int op);
 int P(int semid, int which, int op);
 int V(int semid, int which, int op);
-int removeSem(int semid);
+int removeSem(int semid, int which);
 
 
 static int simpleSemid(int num, int flags) {
@@ -57,7 +57,7 @@ int initSem(int semid, int which, int val) {
 	return 0;
 }
 
-static int setSem(int semid, int which, int op) {
+int setSem(int semid, int which, int op) {
 	struct sembuf sb;
 	sb.sem_num = which;
 	sb.sem_op = op;
