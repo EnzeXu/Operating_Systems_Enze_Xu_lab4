@@ -7,22 +7,22 @@ int request_number; /* nodes sequence number */
 int highest_request_number; /* highest request number seen */
 int outstanding_reply; /* # of outstanding replies */
 int request_CS; /* true when node requests critical section */
-int reply_deferred[N]; /* reply_deferred[i] is true when node defers reply to node i */
-semaphore mutex; /* for mutual exclusion to shared variables */
-semaphore wait_sem; /* used to wait for all requests */
+int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to node i */
+//semaphore mutex; /* for mutual exclusion to shared variables */
+//semaphore wait_sem; /* used to wait for all requests */
 
 int msgid;
 int semid;
-
+/*
 int receiveRequest(int k, int i) {
-	/* k is the sequence number being requested */
-	/* i is the node making the request */
-	int defer_it /* true if request must be deferred */
+	// k is the sequence number being requested 
+	// i is the node making the request 
+	int defer_it //* true if request must be deferred 
 	if (k > highest_request_number) highest_request_number = k;
 	P(mutex);
 	defer_it = (request_CS) && ((k > request_number) || ( k == request_number && i > me));
 	V(mutex);
-	/* defer_it is true if we have priority */
+	// defer_it is true if we have priority 
 	if (defer_it) reply_deferred[i] = TRUE;
 	else send(REPLY, i);
 	return 0;
@@ -42,7 +42,7 @@ int sendRequest() {
 	for (int i = 1; i <= N; i++) {
 		if (i != me) sendMessage(msgid, i * 10, me, request_number);
 	}
-	/* wait for replies */
+	// wait for replies 
 	while (outstanding_reply != 0) P(wait_sem);
 	//CRITICAL SECTION;
 	printf("node %d is now in its CRITICAL SECTION\n", me);
@@ -55,16 +55,18 @@ int sendRequest() {
 		}
 	return 0;
 }
-
+*/
 int main(int argc, char *argv[]) {
 	N = atoi(argv[1]);
 	printf("There are %d nodes in the network\n", N);
 	me = atoi(argv[2]);
-	printf("This is node %d\n", me);
+	printf("I am node %d\n", me);
 	msgid = attachMessageQueue();
 	printf("node %d attaching to msgid = %d successfully\n", me, msgid);
-	semid = createSemid(2);
-	request_number = 0;
-	highest_request_number = 0;
+	//semid = createSemid(2);
+	//request_number = 0;
+	//highest_request_number = 0;
+	sendMessage(msgid, 0, me, 0);
+	printf("finished sending ready message\n");
 	return 0;
 }
