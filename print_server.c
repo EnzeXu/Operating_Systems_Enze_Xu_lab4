@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 			}
 			if (flag) break;
 		}
+		exit(0);
 	}
 	else {
 		int status;
