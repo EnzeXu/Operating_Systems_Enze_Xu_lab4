@@ -1,20 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <memory.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-#include <sys/sem.h>
-
-#define PROJ 0x2021
-#define REQUEST 0
-#define REPLY 1
-#define MAXSIZE 128
-#define FALSE 0
-#define TRUE 1
+#include "basicTools.h"
 
 struct msgbuf {
 	long mtype;
@@ -22,7 +6,6 @@ struct msgbuf {
 	int snum;
 };
 
-void die(char *s);
 int simpleMessageQueue(int flags);
 int createMessageQueue();
 int attachMessageQueue();
@@ -30,20 +13,16 @@ int removeMessageQueue(int msgid);
 int sendMessage(int msgid, int mtype, int source, int snum);
 int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf);
 
-void die(char *s) {
-	perror(s);
-	exit(1);
-}
-
 int simpleMessageQueue(int flags) {
 	key_t key = ftok(".", PROJ);
 	if (key < 0) {
-		perror("ftok");
+		die("ftok");
 		return -1;
 	}
 	int msgid = msgget(key, flags);
 	if (msgid < 0) {
 		die("msgget");
+		return -1;
 	}
 	return msgid;
 }
@@ -89,7 +68,7 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 		die("msgrcv");
 		return -1;
 	}
-	printf("here\n");
+	//printf("here\n");
 	//*outputBuf = sbuf;
 	//outputBuf->mtype = sbuf.mtype;
 	//outputBuf->source = sbuf.source;

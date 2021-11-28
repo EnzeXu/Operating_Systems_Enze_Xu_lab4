@@ -2,13 +2,13 @@
 
 int main()
 {
-	int semid = CreatSemid(1);
+	int semid = createSemid(1);
 	printf("%d\n", semid);
-	InitSem(semid, 0, 1);
+	initSem(semid, 0, 1);
 	pid_t id = fork();
 	if (id == 0)
 	{//child
-		int semid = GetSemid(0);
+		int semid = attachSemid(0);
 		while (1)
 		{
 			P(semid, 0, -1);

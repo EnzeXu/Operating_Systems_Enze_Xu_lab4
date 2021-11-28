@@ -8,6 +8,8 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/sem.h>
+#include <sys/wait.h>
+#include <error.h>
 
 #define PROJ 0x2021
 #define REQUEST 0
