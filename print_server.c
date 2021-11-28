@@ -15,6 +15,6 @@ int main(int argc, char *argv[]) {
 	removeMessageQueue(msgid);
 	removeSem(semid_1, 0);
 	//removeSem(semid_1, 1);
-	system("/usr/bin/ipcs");
+	printf("End\n");
 	return 0;
 }
