@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	printf("creating semid_1 = %d successfully\n", semid_1);
 	//printf("creating semid_2 = %d successfully\n", semid_2);
 	removeMessageQueue(msgid);
-	removeSem(semid_1, 0);
+	removeSem(semid_1);
 	//removeSem(semid_1, 1);
 	printf("End\n");
 	return 0;

@@ -15,7 +15,7 @@ int initSem(int semid, int semnum, int val);
 int setSem(int semid, int semnum, int op);
 int P(int semid, int semnum, int op);
 int V(int semid, int semnum, int op);
-int removeSem(int semid, int semnum);
+int removeSem(int semid);
 
 void dieSem(char *s) {
 	perror(s);
@@ -41,17 +41,20 @@ int attachSemid(int nums, int proj) {
 	return simpleSemid(nums, IPC_CREAT, proj);
 }
 
-int removeSem(int semid, int semnum) {
-	int retCode = semctl(semid, semnum, IPC_RMID);
-	printf("retCode = %d\n", retCode);
-	if (retCode > 0) {
-		printf("removing semid = %d, semnum = %d successfully, return code = %d\n", semid, semnum, retCode);
-		return 0;
+int removeSem(int semid) {
+	pid_t pid = fork();
+	if (pid == 0) {
+		int retCode = semctl(semid, 0, IPC_RMID);
+		if (retCode >= 0) {
+			printf("removing semid = %d successfully, return code = %d\n", semid, retCode);
+		}
+		else {
+			dieSem("semctl");
+		}
+		exit(0);
 	}
-	else {
-		dieSem("semctl");
-		return -1;
-	}
+	pid_t wait_pid = waitpid(pid, &status, 0);
+	return 0;
 }
 
 int initSem(int semid, int semnum, int val) {
