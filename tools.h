@@ -9,8 +9,8 @@
 #include <sys/msg.h>
 
 #define PROJ 0x2021
-#define SERVER_TYPE 1
-#define CLIENT_TYPE 2
+#define REQUEST 10
+#define REPLY 11
 #define MAXSIZE 128
 
 struct msgbuf {
@@ -62,9 +62,9 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int who, char *msg) {
+int sendMessage(int msgid, int sender, char *msg) {
 	struct msgbuf sbuf;
-	sbuf.mtype = who;
+	sbuf.mtype = sender;
 	strcpy(sbuf.mtext, msg);
 	size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgsnd(msgid, &sbuf, buflen, IPC_NOWAIT) < 0) {
@@ -74,13 +74,14 @@ int sendMessage(int msgid, int who, char *msg) {
 	return 0;
 }
 
-int receiveMessage(int msgid, int recvType, char out[]) {
+int receiveMessage(int msgid, int receiveType, char *outputBuf) {
 	struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, &sbuf, MAXSIZE, recvType, 0) < 0) {
+	if (msgrcv(msgid, &sbuf, MAXSIZE, receiveType, 0) < 0) {
 		die("msgrcv");
 		return -1;
 	}
-	strcpy(out, sbuf.mtext);
+	printf("(type = %ld) ", sbuf.mtype);
+	strcpy(outputBuf, sbuf.mtext);
 	return 0;
 }

@@ -62,9 +62,9 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int who, char *msg) {
+int sendMessage(int msgid, int sender, char *msg) {
 	struct msgbuf sbuf;
-	sbuf.mtype = who;
+	sbuf.mtype = sender;
 	strcpy(sbuf.mtext, msg);
 	size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgsnd(msgid, &sbuf, buflen, IPC_NOWAIT) < 0) {
@@ -74,10 +74,10 @@ int sendMessage(int msgid, int who, char *msg) {
 	return 0;
 }
 
-int receiveMessage(int msgid, int recvType, char outputBuf[]) {
+int receiveMessage(int msgid, int receiveType, char *outputBuf) {
 	struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, &sbuf, MAXSIZE, recvType, 0) < 0) {
+	if (msgrcv(msgid, &sbuf, MAXSIZE, receiveType, 0) < 0) {
 		die("msgrcv");
 		return -1;
 	}
