@@ -10,6 +10,7 @@ int main()
 		printf("waiting...\n");
 		struct msgbuf sbuf;
 		receiveMessage(msgid, REQUEST, &sbuf);
+		printf("finish receiving\n");
 		printf("receive[%d]: %d %d %d\n", i, sbuf.mtype, sbuf.source, sbuf.snum);
 	}
 	removeMessageQueue(msgid);

@@ -80,16 +80,17 @@ int sendMessage(int msgid, int mtype, int source, int snum) {
 
 int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	printf("start receiving...\n");
-	struct msgbuf sbuf;
+	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, &sbuf, sizeof(sbuf), receiveType, 0) < 0) {
+	if (msgrcv(msgid, outputBuf, sizeof(sbuf), receiveType, 0) < 0) {
 		die("msgrcv");
 		return -1;
 	}
 	printf("here\n");
-	outputBuf->mtype = sbuf.mtype;
-	outputBuf->source = sbuf.source;
-	outputBuf->snum = sbuf.snum;
+	//*outputBuf = sbuf;
+	//outputBuf->mtype = sbuf.mtype;
+	//outputBuf->source = sbuf.source;
+	//outputBuf->snum = sbuf.snum;
 	//strcpy(outputBuf, sbuf.mtext);
 	return 0;
 }
