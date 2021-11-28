@@ -53,6 +53,7 @@ int removeSem(int semid) {
 		}
 		exit(0);
 	}
+	int status;
 	pid_t wait_pid = waitpid(pid, &status, 0);
 	return 0;
 }
