@@ -98,13 +98,6 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	return 0;
 }
 
-int semop(int semid,  struct sembuf *sops,  unsigned int nsops);
-
-struct sembuf {
-	unsigned short sem_num; /* semaphore #  */
-	short int sem_op; /* semaphore operation */
-	short int sem_flag; /* operations flag  */
-};
 
 
 
