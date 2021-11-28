@@ -2,7 +2,7 @@
 
 int main()
 {
-	int semid = createSemid(2);
+	int semid = createSemid(2, PROJ_SEM_1);
 	printf("%d\n", semid);
 	initSem(semid, 0, 1);
 	initSem(semid, 1, 2);

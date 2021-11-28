@@ -1,7 +1,7 @@
 #include "messageTools.h"
 #include "semaphoreTools.h"
 
-const int me; /* my node number */
+int me; /* my node number */
 int N; /* number of nodes */
 int request_number; /* nodes sequence number */
 int highest_request_number; /* highest request number seen */
@@ -12,6 +12,7 @@ semaphore mutex; /* for mutual exclusion to shared variables */
 semaphore wait_sem; /* used to wait for all requests */
 
 int msgid;
+int semid;
 
 int receiveRequest(int k, int i) {
 	/* k is the sequence number being requested */
@@ -56,10 +57,13 @@ int sendRequest() {
 }
 
 int main(int argc, char *argv[]) {
-	me = atoi(argv[1]);
+	N = atoi(argv[1]);
+	printf("There are %d nodes in the network\n", N);
+	me = atoi(argv[2]);
 	printf("This is node %d\n", me);
 	msgid = attachMessageQueue();
 	printf("node %d attaching to msgid = %d successfully\n", me, msgid);
+	semid = createSemid(2);
 	request_number = 0;
 	highest_request_number = 0;
 	return 0;

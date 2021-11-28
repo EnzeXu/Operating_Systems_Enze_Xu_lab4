@@ -1,25 +1,24 @@
 #include "basicTools.h"
 
-union semun
-{
+union semun {
 	int val;
 	struct semid_ds *buf;
 	unsigned short *arry;
 	struct seminfo *__buf;
 };
 
-static int simpleSemid(int num, int flags);
-int createSemid(int nums);
-int attachSemid(int nums);
+int simpleSemid(int num, int flags, int proj);
+int createSemid(int nums, int proj);
+int attachSemid(int nums, int proj);
 int initSem(int semid, int which, int val);
-static int setSem(int semid, int which, int op);
+int setSem(int semid, int which, int op);
 int P(int semid, int which, int op);
 int V(int semid, int which, int op);
 int removeSem(int semid, int which);
 
 
-static int simpleSemid(int num, int flags) {
-	key_t key = ftok(".", PROJ);
+int simpleSemid(int num, int flags, int proj) {
+	key_t key = ftok(".", proj);
 	if (key > 0) {
 		return semget(key, num, flags);
 	}
@@ -29,12 +28,12 @@ static int simpleSemid(int num, int flags) {
 	}
 }
 
-int createSemid(int nums) {
-	return simpleSemid(nums, IPC_CREAT | IPC_EXCL | 0666);
+int createSemid(int nums, int proj) {
+	return simpleSemid(nums, IPC_CREAT | IPC_EXCL | 0666, int proj);
 }
 
-int attachSemid(int nums) {
-	return simpleSemid(nums, IPC_CREAT);
+int attachSemid(int nums, int proj) {
+	return simpleSemid(nums, IPC_CREAT, int proj);
 }
 
 int removeSem(int semid, int which) {
