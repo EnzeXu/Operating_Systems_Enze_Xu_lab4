@@ -19,8 +19,8 @@ void dieMsg(char *s) {
 	exit(1);
 }
 
-int simpleMessageQueue(int flags) {
-	key_t key = ftok(".", PROJ);
+int simpleMessageQueue(int flags, int proj) {
+	key_t key = ftok(".", proj);
 	if (key < 0) {
 		dieMsg("ftok");
 		return -1;
@@ -34,13 +34,13 @@ int simpleMessageQueue(int flags) {
 }
 
 // IPC_CREAT | IPC_EXCL: create exclusive, fails if resource exists
-int createMessageQueue() {
-	return simpleMessageQueue(IPC_CREAT | IPC_EXCL | 0666);
+int createMessageQueue(int proj) {
+	return simpleMessageQueue(IPC_CREAT | IPC_EXCL | 0666, proj);
 }
 
 // IPC_CREAT: create if it does not exists
-int attachMessageQueue() {
-	return simpleMessageQueue(IPC_CREAT);
+int attachMessageQueue(int proj) {
+	return simpleMessageQueue(IPC_CREAT, proj);
 }
 
 int removeMessageQueue(int msgid) {

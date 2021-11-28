@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	printf("There are %d nodes in the network\n", N);
 	int me = 99;
 	printf("Print server is node %d\n", me);
-	int msgid = createMessageQueue();
+	int msgid = createMessageQueue(PROJ_MSG);
 	printf("creating msgid = %d successfully\n", msgid);
 	int semid_1 = createSemid(1, PROJ_SEM_1);
 	int semid_2 = createSemid(1, PROJ_SEM_2);
