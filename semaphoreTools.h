@@ -15,7 +15,7 @@ int initSem(int semid, int which, int val);
 static int setSem(int semid, int which, int op);
 int P(int semid, int which, int op);
 int V(int semid, int which, int op);
-int Destory(int semid);
+int removeSem(int semid);
 
 
 static int simpleSemid(int num, int flags) {
@@ -37,7 +37,7 @@ int attachSemid(int nums) {
 	return simpleSemid(nums, IPC_CREAT);
 }
 
-int Destory(int semid) {
+int removeSem(int semid) {
 	if (semctl(semid, 0, IPC_RMID)>0) {
 		return 0;
 	}

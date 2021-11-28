@@ -1,4 +1,5 @@
 #include "messageTools.h"
+#include "semaphoreTools.h"
 
 const int me; /* my node number */
 int N; /* number of nodes */

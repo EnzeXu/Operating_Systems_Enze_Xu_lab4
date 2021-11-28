@@ -14,10 +14,10 @@ int main()
 			P(semid, 0, -1);
 			printf("A");
 			fflush(stdout);
-			usleep(10000);
+			//usleep(10000);
 			printf("A");
 			fflush(stdout);
-			usleep(20000);
+			//usleep(20000);
 			V(semid, 0, 1);
 		}
 	}
@@ -26,13 +26,13 @@ int main()
 		while (1)
 		{
 			P(semid, 0, -1);
-			usleep(30000);
+			//usleep(30000);
 			printf("B");
 			fflush(stdout);
-			usleep(8000);
+			//usleep(8000);
 			printf("B");
 			fflush(stdout);
-			usleep(20000);
+			//usleep(20000);
 			V(semid, 0, 1);
 		}
 		if (waitpid(id, NULL, 0) < 0)
@@ -42,6 +42,6 @@ int main()
 		}
 
 	}
-	Destory(semid);
+	removeSem(semid);
 	return 0;
 }
