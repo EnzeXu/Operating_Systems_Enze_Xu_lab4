@@ -64,7 +64,7 @@ void *listenReply() {
 }
 
 int sendRequest() {
-	usleep(randomInt(100000));
+	usleep(randomInt(1000000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
 	request_number = ++highest_request_number;

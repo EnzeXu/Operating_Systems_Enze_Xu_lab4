@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 		}
 		if (flag2) break;
 	}
-	sleep(5);
+	sleep(2);
 	removeMessageQueue(msgid);
 	////removeSem(semid);
 	//removeSem(semid, 1);
