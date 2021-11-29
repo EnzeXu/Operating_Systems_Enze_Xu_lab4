@@ -11,7 +11,7 @@ int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to
 int msgid;
 int semid;
 
-int random(int m) {
+int randomInt(int m) {
 	return rand() % m;
 }
 
@@ -64,7 +64,7 @@ void *listenReply() {
 }
 
 int sendRequest() {
-	usleep(random(100000));
+	usleep(randomInt(100000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
 	request_number = ++highest_request_number;
