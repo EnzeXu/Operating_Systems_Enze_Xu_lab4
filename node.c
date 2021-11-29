@@ -28,7 +28,8 @@ void *fun(void *arg) {
 */
 void *listenRequest() {
 	printf("[Node %d] listenRequest thread is set up\n", me);
-	char empty[MAXSIZE] = "";
+	char empty[MAXSIZE];
+	empty[0] = '\0';
 	int z = (N - 1) * MAXREQUEST;
 	while(z--) {
 		struct msgbuf sbuf_listen_request;
@@ -65,7 +66,8 @@ void *listenReply() {
 }
 
 int sendRequest() {
-	char empty[MAXSIZE] = "";
+	char empty[MAXSIZE];
+	empty[0] = '\0';
 	usleep(randomInt(1000000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
@@ -146,7 +148,8 @@ int sendRequest() {
 */
 
 int main(int argc, char *argv[]) {
-	char empty[MAXSIZE] = "";
+	char empty[MAXSIZE];
+	empty[0] = '\0';
 	N = atoi(argv[1]);
 	me = atoi(argv[2]);
 	printf("[Node %d] There are %d nodes in the network\n", me, N);

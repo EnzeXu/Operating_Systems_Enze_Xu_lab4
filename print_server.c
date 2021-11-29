@@ -2,7 +2,8 @@
 #include "semaphoreTools.h"
 
 int main(int argc, char *argv[]) {
-	char empty[MAXSIZE] = "";
+	char empty[MAXSIZE];
+	empty[0] = '\0';
 	int N = atoi(argv[1]);
 	printf("[Print server] there are %d nodes in the network\n", N);
 	int me = 99;
