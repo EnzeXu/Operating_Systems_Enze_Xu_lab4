@@ -6,7 +6,7 @@ int k;
 struct threadParam {
 	int node;
 	int x;
-}
+};
 
 void *fun(void *arg) {
 	//int node = *(int *)arg;
