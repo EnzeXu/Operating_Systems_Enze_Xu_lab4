@@ -1,8 +1,8 @@
 #include "messageTools.h"
 #include "semaphoreTools.h"
 
-void *listenRequest(void);
-void *listenReply(void);
+void *listenRequest();
+void *listenReply();
 int sendRequest(void);
 
 int me; /* my node number */
@@ -15,7 +15,7 @@ int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to
 int msgid;
 int semid;
 
-void *listenRequest(void) {
+void *listenRequest() {
 	printf("[Node %d] listenRequest thread is set up\n", me);
 	char empty[MAXSIZE];
 	empty[0] = '\0';
@@ -40,7 +40,7 @@ void *listenRequest(void) {
 	return (void *)0;
 }
 
-void *listenReply(void) {
+void *listenReply() {
 	printf("[Node %d] listenReply thread is set up\n", me);
 	int z = (N - 1) * MAXREQUEST;
 	while(z--) {
