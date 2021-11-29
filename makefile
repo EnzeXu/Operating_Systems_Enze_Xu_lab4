@@ -2,7 +2,7 @@ cc = gcc
 all: server node hacker
 .PHONY: clean
 
-server: server.c messageTools.h semaphoreTools.h basicTools.h
+server: print_server.c messageTools.h semaphoreTools.h basicTools.h
 	$(cc) -o server print_server.c
 
 node: node.c messageTools.h semaphoreTools.h basicTools.h
