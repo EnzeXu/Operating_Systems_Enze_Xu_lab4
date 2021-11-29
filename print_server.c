@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	// broadcast to each node that they could start
 	int z = randomInt(1000);
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 100 + ((z + i) % N) + 1, me, N, empty);
+		sendMessage(msgid, 100 + ((z - i) % N) + 1, me, N, empty);
 	}
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;
