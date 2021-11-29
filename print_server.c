@@ -2,6 +2,7 @@
 #include "semaphoreTools.h"
 
 int main(int argc, char *argv[]) {
+	char empty[MAXSIZE] = "";
 	int N = atoi(argv[1]);
 	printf("[Print server] there are %d nodes in the network\n", N);
 	int me = 99;
@@ -36,7 +37,7 @@ int main(int argc, char *argv[]) {
 	
 	// broadcast to each node that they could start
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 100 + (N + 1 - i), me, 0);
+		sendMessage(msgid, 100 + (N + 1 - i), me, 0, empty);
 	}
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;

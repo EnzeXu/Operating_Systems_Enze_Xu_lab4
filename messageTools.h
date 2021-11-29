@@ -4,6 +4,7 @@ struct msgbuf {
 	long mtype;
 	int source;
 	int snum;
+	char mtext[MAXSIZE];
 };
 
 void dieMsg(char *s);
@@ -51,12 +52,13 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int mtype, int source, int snum) {
+int sendMessage(int msgid, int mtype, int source, int snum, char *mtext) {
 	//printf("start sending...\n");
 	struct msgbuf sbuf;
 	sbuf.mtype = mtype;
 	sbuf.source = source;
 	sbuf.snum = snum;
+	strcpy(sbuf.mtext, mtext);
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgsnd(msgid, &sbuf, sizeof(sbuf), IPC_NOWAIT) < 0) {

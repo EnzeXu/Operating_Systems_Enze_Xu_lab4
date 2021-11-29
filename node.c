@@ -28,6 +28,7 @@ void *fun(void *arg) {
 */
 void *listenRequest() {
 	printf("[Node %d] listenRequest thread is set up\n", me);
+	char empty[MAXSIZE] = "";
 	int z = (N - 1) * MAXREQUEST;
 	while(z--) {
 		struct msgbuf sbuf_listen_request;
@@ -44,7 +45,7 @@ void *listenRequest() {
 		V(semid, 0, 1); // V(mutex);
 		// defer_it is true if we have priority 
 		if (defer_it) reply_deferred[i] = TRUE;
-		else sendMessage(msgid, i * 10 + 1, me, 0); // send(REPLY, i);
+		else sendMessage(msgid, i * 10 + 1, me, 0, empty); // send(REPLY, i);
 	}
 	return (void *)0;
 }
@@ -64,6 +65,7 @@ void *listenReply() {
 }
 
 int sendRequest() {
+	char empty[MAXSIZE] = "";
 	usleep(randomInt(1000000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
@@ -72,7 +74,7 @@ int sendRequest() {
 	outstanding_reply = N - 1;
 	printf("[Node %d] outstanding_reply is reset to %d\n", outstanding_reply);
 	for (int i = 1; i <= N; i++) {
-		if (i != me) sendMessage(msgid, i * 10, me, request_number);
+		if (i != me) sendMessage(msgid, i * 10, me, request_number, empty);
 	}
 	// wait for replies 
 	while (outstanding_reply != 0) {
@@ -82,7 +84,7 @@ int sendRequest() {
 	//CRITICAL SECTION;
 	printf("[Node %d] I am now in the CRITICAL SECTION. I will send some lines to the print server\n", me);
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 99, me, i);
+		sendMessage(msgid, 99, me, i, empty);
 		//usleep(1000);
 	}
 	//P(semid, 0, -1); // P(mutex);
@@ -92,7 +94,7 @@ int sendRequest() {
 		if (i == me) continue;
 		if (reply_deferred[i]) {
 			reply_deferred[i] = FALSE;
-			sendMessage(msgid, i * 10 + 1, me, request_number); //send(REPLY, i);
+			sendMessage(msgid, i * 10 + 1, me, request_number, empty); //send(REPLY, i);
 		}
 	}
 	return 0;
@@ -144,6 +146,7 @@ int sendRequest() {
 */
 
 int main(int argc, char *argv[]) {
+	char empty[MAXSIZE] = "";
 	N = atoi(argv[1]);
 	me = atoi(argv[2]);
 	printf("[Node %d] There are %d nodes in the network\n", me, N);
@@ -167,7 +170,7 @@ int main(int argc, char *argv[]) {
 	request_CS = 0;
 	memset(reply_deferred, 0, sizeof(reply_deferred));
 	
-	sendMessage(msgid, 99, me, 0);
+	sendMessage(msgid, 99, me, 0, empty);
 	printf("[Node %d] finished sending ready message, waiting for the starting signal from print server (node 99)...\n", me);
 	struct msgbuf sbuf_start;
 	receiveMessage(msgid, 100 + me, &sbuf_start);
@@ -181,7 +184,7 @@ int main(int argc, char *argv[]) {
 	printf("[Node %d] ", me);
 	removeSem(semid);
 	//say good bye to print server
-	sendMessage(msgid, 100 + 99, me, 0);
+	sendMessage(msgid, 100 + 99, me, 0, empty);
 	printf("[Node %d] I finished all the job. Good bye!\n", me);
 	return 0;
 }
