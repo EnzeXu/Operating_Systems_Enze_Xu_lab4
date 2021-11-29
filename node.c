@@ -72,7 +72,7 @@ int sendRequest() {
 	request_number = ++highest_request_number;
 	V(semid, 0, 1); // V(mutex);
 	outstanding_reply = N - 1;
-	printf("[Node %d] outstanding_reply is reset to %d\n", outstanding_reply);
+	printf("[Node %d] outstanding_reply is reset to %d\n", me, outstanding_reply);
 	for (int i = 1; i <= N; i++) {
 		if (i != me) sendMessage(msgid, i * 10, me, request_number, empty);
 	}

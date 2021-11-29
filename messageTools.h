@@ -52,7 +52,7 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int mtype, int source, int snum, char *mtext) {
+int sendMessage(int msgid, int mtype, int source, int snum, char mtext[]) {
 	//printf("start sending...\n");
 	struct msgbuf sbuf;
 	sbuf.mtype = mtype;
