@@ -65,8 +65,7 @@ int sendMessage(int msgid, int mtype, int source, int snum, char mtext[]) {
 	sbuf.snum = snum;
 	strcpy(sbuf.mtext, mtext);
 	// strcpy(sbuf.mtext, msg);
-	// size_t buflen = strlen(sbuf.mtext) + 1;
-	srand(time(0) + mtype);
+	// size_t buflen = strlen(sbuf.mtext) + 1;;
 	usleep(randomInt(50000));
 	if (msgsnd(msgid, &sbuf, sizeof(sbuf) - sizeof(long), IPC_NOWAIT) < 0) {
 		dieMsg("msgsnd");

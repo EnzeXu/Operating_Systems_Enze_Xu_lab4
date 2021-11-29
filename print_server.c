@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	printf("[Print server] created msgid = %d successfully\n", msgid);
 	
 	// broadcast to each node the N
-	printf("[Print server] broadcasting ther are %d nodes in the network\n", N);
+	printf("[Print server] broadcasting there are %d nodes in the network\n", N);
 	for (int i = 1; i <= N; ++i) {
 		sendMessage(msgid, 150 + i, me, N, empty);
 	}
@@ -40,8 +40,9 @@ int main(int argc, char *argv[]) {
 	printf("[Print server] all nodes are ready!\n");
 	
 	// broadcast to each node that they could start
+	int z = randomInt(1000);
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 100 + i, me, N, empty);
+		sendMessage(msgid, 100 + ((z + i) % N) + 1, me, N, empty);
 	}
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;
