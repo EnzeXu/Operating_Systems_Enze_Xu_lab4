@@ -20,5 +20,6 @@
 #define REPLY 1
 #define MAXSIZE 128
 #define MAXN 64
+#define MAXREQUEST 5
 #define FALSE 0
 #define TRUE 1

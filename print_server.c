@@ -8,9 +8,9 @@ int main(int argc, char *argv[]) {
 	printf("Print server is node %d\n", me);
 	int msgid = createMessageQueue(PROJ_MSG);
 	printf("creating msgid = %d successfully\n", msgid);
-	int semid = createSemid(2, PROJ_SEM_1);
+	////int semid = createSemid(2, PROJ_SEM_1);
 	// int semid_2 = createSemid(1, PROJ_SEM_2);
-	printf("creating semid = %d successfully\n", semid);
+	////printf("creating semid = %d successfully\n", semid);
 	//printf("creating semid_2 = %d successfully\n", semid_2);
 	printf("waiting for every node ready...\n");
 	
@@ -21,10 +21,10 @@ int main(int argc, char *argv[]) {
 		memset(ready, 0, sizeof(ready));
 		int flag;
 		while(1) {
-			struct msgbuf sbuf;
-			receiveMessage(msgid, 90, &sbuf);
-			printf("From node %d: I am ready!\n", sbuf.source);
-			ready[sbuf.source] = 1;
+			struct msgbuf sbuf_ready;
+			receiveMessage(msgid, 99, &sbuf_ready);
+			printf("From node %d: I am ready!\n", sbuf_ready.source);
+			ready[sbuf_ready.source] = 1;
 			flag = 1;
 			for (int i = 1; i <= N; ++i) {
 				if (!ready[i]) {
@@ -47,9 +47,19 @@ int main(int argc, char *argv[]) {
 		sendMessage(msgid, 100 + i, me, 0);
 	}
 	printf("finished telling each node they can start\n");
-		
+	int times = 0;
+	while(times < N * MAXREQUEST) {
+		struct msgbuf sbuf;
+		receiveMessage(msgid, 99, &sbuf);
+		printf("### START OUTPUT FOR NODE %d ###\n", sbuf.source);
+		printf("%d is the best number in the world!\n", sbuf.source);
+		printf("--- END OUTPUT FOR NODE %d ---\n", sbuf.source);
+		times++;
+	}
+	
+	sleep(5);
 	removeMessageQueue(msgid);
-	removeSem(semid);
+	////removeSem(semid);
 	//removeSem(semid, 1);
 	printf("End\n");
 	return 0;
