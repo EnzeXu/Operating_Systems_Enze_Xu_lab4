@@ -11,21 +11,6 @@ int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to
 int msgid;
 int semid;
 
-int randomInt(int m) {
-	return rand() % m;
-}
-
-/*
-void *fun(void *arg) {
-	int node = *(int *)arg;
-	for (int i = 0; i < 10; ++i) {
-		k++;
-		printf("%d: %d\n", node, k);
-		usleep(1);
-	}
-	return (void *)0;
-}
-*/
 void *listenRequest() {
 	printf("[Node %d] listenRequest thread is set up\n", me);
 	char empty[MAXSIZE];
@@ -68,7 +53,7 @@ void *listenReply() {
 int sendRequest() {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
-	usleep(randomInt(500000));
+	//usleep(randomInt(500000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
 	request_number = ++highest_request_number;
@@ -115,51 +100,6 @@ int sendRequest() {
 	return 0;
 }
 
-/*
-int receiveRequest(int k, int i) {
-	// k is the sequence number being requested 
-	// i is the node making the request 
-	int defer_it //* true if request must be deferred 
-	if (k > highest_request_number) highest_request_number = k;
-	P(mutex);
-	defer_it = (request_CS) && ((k > request_number) || ( k == request_number && i > me));
-	V(mutex);
-	// defer_it is true if we have priority 
-	if (defer_it) reply_deferred[i] = TRUE;
-	else send(REPLY, i);
-	return 0;
-}
-
-int receiveReply(int k, int i) {
-	outstanding_reply--;
-	V(wait_sem);
-}
-
-int sendRequest() {
-	P(mutex);
-	request_CS = TRUE;
-	request_number = ++highest_request;
-	V(mutex);
-	outstanding_reply = N-1;
-	for (int i = 1; i <= N; i++) {
-		if (i != me) sendMessage(msgid, i * 10, me, request_number);
-	}
-	// wait for replies 
-	while (outstanding_reply != 0) P(wait_sem);
-	//CRITICAL SECTION;
-	printf("node %d is now in its CRITICAL SECTION and will sleep 2s\n", me);
-	sleep(2);
-	request_CS = FALSE;
-	for (int i = 1; i <= N; i++) {
-		if (i == me) continue;
-		if (reply_deferred[i]) {
-			reply_deferred[i] = FALSE;
-			sendMessage(msgid, i * 10 + 1, me, request_number); //send(REPLY, i);
-		}
-	return 0;
-}
-*/
-
 int main(int argc, char *argv[]) {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
@@ -202,6 +142,6 @@ int main(int argc, char *argv[]) {
 	removeSem(semid);
 	//say good bye to print server
 	sendMessage(msgid, 100 + 99, me, 0, empty);
-	printf("[Node %d] I finished all the job. Good bye!\n", me);
+	printf("[Node %d] I finished all the job. Good-bye!\n", me);
 	return 0;
 }

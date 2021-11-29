@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 		}
 		if (flag1) break;
 	}
-	printf("[Print server] All nodes are ready!\n");
+	printf("[Print server] all nodes are ready!\n");
 	
 	// broadcast to each node that they could start
 	for (int i = 1; i <= N; ++i) {
@@ -72,6 +72,6 @@ int main(int argc, char *argv[]) {
 	removeMessageQueue(msgid);
 	////removeSem(semid);
 	//removeSem(semid, 1);
-	printf("[Print server] end & good-bye!\n");
+	printf("[Print server] nodes and I finished all the job. Good-bye!\n");
 	return 0;
 }

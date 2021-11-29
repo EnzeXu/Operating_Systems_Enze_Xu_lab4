@@ -8,6 +8,7 @@ struct msgbuf {
 };
 
 void dieMsg(char *s);
+int randomInt(int k);
 int simpleMessageQueue(int flags, int proj);
 int createMessageQueue(int proj);
 int attachMessageQueue(int proj);
@@ -18,6 +19,10 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf);
 void dieMsg(char *s) {
 	perror(s);
 	exit(1);
+}
+
+int randomInt(int k) {
+	return rand() % k;
 }
 
 int simpleMessageQueue(int flags, int proj) {
@@ -61,6 +66,7 @@ int sendMessage(int msgid, int mtype, int source, int snum, char mtext[]) {
 	strcpy(sbuf.mtext, mtext);
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;
+	usleep(randomInt(1000000));
 	if (msgsnd(msgid, &sbuf, sizeof(sbuf) - sizeof(long), IPC_NOWAIT) < 0) {
 		dieMsg("msgsnd");
 		return -1;
