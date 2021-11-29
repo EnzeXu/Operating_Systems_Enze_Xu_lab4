@@ -78,9 +78,11 @@ int sendRequest() {
 		// printf("In sendRequest, now outstanding_reply = %d\n", outstanding_reply);
 	}
 	//CRITICAL SECTION;
-	printf("[Node %d] I am now in the CRITICAL SECTION. I will first send a message to print server and then sleep 1s\n", me);
-	sendMessage(msgid, 99, me, 0);
-	sleep(1);
+	printf("[Node %d] I am now in the CRITICAL SECTION. I will send some lines to the print server\n", me);
+	for (int i = 1; i <= N; ++i) {
+		sendMessage(msgid, 99, me, i);
+		usleep(1000);
+	}
 	//P(semid, 0, -1); // P(mutex);
 	request_CS = FALSE;
 	//V(semid, 0, 1); // V(mutex);

@@ -36,18 +36,23 @@ int main(int argc, char *argv[]) {
 	
 	// broadcast to each node that they could start
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 100 + i, me, 0);
+		sendMessage(msgid, 100 + (N + 1 - i), me, 0);
 	}
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;
-	while(times < N * MAXREQUEST) {
+	int current_node = -1;
+	while(times < N * MAXREQUEST * N) {
 		struct msgbuf sbuf;
 		receiveMessage(msgid, 99, &sbuf);
-		printf("### START OUTPUT FOR NODE %d ###\n", sbuf.source);
-		printf("%d is the best number in the world!\n", sbuf.source);
-		printf("--- END OUTPUT FOR NODE %d ---\n\n", sbuf.source);
+		if (sbuf.source != current_node) {
+			if (current_node != -1) printf("--- END OUTPUT FOR NODE %d ---\n\n", current_node);
+			printf("### START OUTPUT FOR NODE %d ###\n", sbuf.source);
+			current_node = sbuf.source;
+		}
+		printf("%d: This is line %d!\n", current_node, sbuf.snum);
 		times++;
 	}
+	printf("--- END OUTPUT FOR NODE %d ---\n\n", current_node);
 	
 	int goodbye[MAXN];
 	memset(goodbye, 0, sizeof(goodbye));
