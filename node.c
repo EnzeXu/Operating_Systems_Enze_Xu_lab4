@@ -185,6 +185,7 @@ int main(int argc, char *argv[]) {
 	pthread_join(thread_listen_request, NULL);
 	pthread_join(thread_listen_reply, NULL);
 	printf("[Node %d] ", me);
+	fflush(stdout);
 	removeSem(semid);
 	//say good bye to print server
 	sendMessage(msgid, 100 + 99, me, 0, empty);

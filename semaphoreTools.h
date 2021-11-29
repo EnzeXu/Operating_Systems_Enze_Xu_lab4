@@ -46,7 +46,7 @@ int removeSem(int semid) {
 	if (pid == 0) {
 		int retCode = semctl(semid, 0, IPC_RMID);
 		if (retCode >= 0) {
-			printf("removing semid = %d successfully, return code = %d\n", semid, retCode);
+			printf("removed semid = %d successfully, return code = %d\n", semid, retCode);
 		}
 		else {
 			dieSem("semctl");
