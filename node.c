@@ -82,20 +82,20 @@ int sendRequest(void) {
 	char str_start[MAXSIZE];
 	sprintf(str_start, "### START OUTPUT FOR NODE %d ###\n", me);
 	sendMessage(msgid, 99, me, 0, str_start);
-	usleep(randomInt(500000));
+	usleep(randomInt(300000));
 	
 	int sentence_num = randomInt(10) + 2;
 	for (int i = 1; i <= sentence_num; ++i) {
 		char str_tmp[MAXSIZE];
 		sprintf(str_tmp, "%d: This is line %d!\n", me, i);
 		sendMessage(msgid, 99, me, 0, str_tmp);
-		usleep(randomInt(500000));
+		usleep(randomInt(300000));
 	}
 	
 	char str_end[MAXSIZE];
 	sprintf(str_end, "--- END OUTPUT FOR NODE %d ---\n", me);
 	sendMessage(msgid, 99, me, -1, str_end);
-	usleep(randomInt(500000));
+	usleep(randomInt(300000));
 	
 	printf("[Node %d] I want to quit the CRITICAL SECTION\n", me);
 	//P(semid, 0, -1); // P(mutex);
