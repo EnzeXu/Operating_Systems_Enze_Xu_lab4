@@ -2,13 +2,13 @@ cc = gcc
 all: server node hacker
 .PHONY: clean
 
-server: messageTools.h semaphoreTools.h basicTools.h
+server: server.c messageTools.h semaphoreTools.h basicTools.h
 	$(cc) -o server print_server.c
 
-node: messageTools.h semaphoreTools.h basicTools.h
+node: node.c messageTools.h semaphoreTools.h basicTools.h
 	$(cc) -pthread -o node node.c
 
-hacker: messageTools.h semaphoreTools.h basicTools.h
+hacker: hacker.c messageTools.h semaphoreTools.h basicTools.h
 	$(cc) -o hacker hacker.c
 
 clean: 
