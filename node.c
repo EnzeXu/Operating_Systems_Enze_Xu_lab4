@@ -58,10 +58,10 @@ void *listenReply() {
 	return (void *)0;
 }
 
-void sendRequest() {
+int sendRequest() {
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
-	request_number = ++highest_request;
+	request_number = ++highest_request_number;
 	V(semid, 0, 1); // V(mutex);
 	outstanding_reply = N - 1;
 	for (int i = 1; i <= N; i++) {
