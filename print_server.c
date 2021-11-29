@@ -57,6 +57,23 @@ int main(int argc, char *argv[]) {
 		times++;
 	}
 	
+	int goodbye[MAXN];
+	memset(goodbye, 0, sizeof(goodbye));
+	int flag2;
+	while(1) {
+		struct msgbuf sbuf_goodbye;
+		receiveMessage(msgid, 99, &sbuf_goodbye);
+		printf("From node %d: Good-bye!\n", sbuf_goodbye.source);
+		ready[sbuf_goodbye.source] = 1;
+		flag2 = 1;
+		for (int i = 1; i <= N; ++i) {
+			if (!ready[i]) {
+				flag2 = 0;
+				break;
+			}
+		}
+		if (flag2) break;
+	}
 	sleep(5);
 	removeMessageQueue(msgid);
 	////removeSem(semid);

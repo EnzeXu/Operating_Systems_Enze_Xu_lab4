@@ -76,9 +76,9 @@ int sendRequest() {
 	printf("I am now in the CRITICAL SECTION. I will first send a message to print server and then sleep 2s\n", me);
 	sendMessage(msgid, 99, me, 0);
 	sleep(2);
-	P(semid, 0, -1); // P(mutex);
+	//P(semid, 0, -1); // P(mutex);
 	request_CS = FALSE;
-	V(semid, 0, 1); // V(mutex);
+	//V(semid, 0, 1); // V(mutex);
 	for (int i = 1; i <= N; i++) {
 		if (i == me) continue;
 		if (reply_deferred[i]) {
@@ -168,6 +168,8 @@ int main(int argc, char *argv[]) {
 	pthread_join(thread_listen_request, NULL);
 	pthread_join(thread_listen_reply, NULL);
 	removeSem(semid);
+	//say good bye to print server
+	sendMessage(msgid, 99, me, 0);
 	printf("[I] node %d finished all the job. Good bye!\n", me);
 	return 0;
 }
