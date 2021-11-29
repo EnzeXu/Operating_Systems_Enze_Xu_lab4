@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	int N = atoi(argv[1]);
 	printf("[Print server] there are %d nodes in the network\n", N);
 	int me = 99;
-	srand(time(0) + me);
+	srand(time(0) * me);
 	printf("[Print server] print server is node %d\n", me);
 	int msgid = createMessageQueue(PROJ_MSG);
 	printf("[Print server] created msgid = %d successfully\n", msgid);

@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
 	pthread_create(&thread_listen_request, NULL, listenRequest, NULL);
 	pthread_create(&thread_listen_reply, NULL, listenReply, NULL);
 	
-	srand(time(0) + me);
+	srand(time(0) * me);
 	
 	request_number = 0;
 	highest_request_number = 0;
