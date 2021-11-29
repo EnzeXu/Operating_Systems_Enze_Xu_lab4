@@ -27,7 +27,8 @@ void *fun(void *arg) {
 */
 void *listenRequest() {
 	printf("listenRequest thread is set up\n");
-	while(1) {
+	int z = (N - 1) * MAXREQUEST;
+	while(z--) {
 		struct msgbuf sbuf_listen_request;
 		receiveMessage(msgid, 10 * me, &sbuf_listen_request);
 		printf("a request comes from node %d\n", sbuf_listen_request.source);
@@ -47,7 +48,8 @@ void *listenRequest() {
 
 void *listenReply() {
 	printf("listenReply thread is set up\n");
-	while(1) {
+	int z = (N - 1) * MAXREQUEST;
+	while(z--) {
 		struct msgbuf sbuf_listen_reply;
 		receiveMessage(msgid, 10 * me + 1, &sbuf_listen_reply);
 		printf("a reply comes from node %d\n", sbuf_listen_reply.source);
@@ -64,6 +66,7 @@ int sendRequest() {
 	request_number = ++highest_request_number;
 	V(semid, 0, 1); // V(mutex);
 	outstanding_reply = N - 1;
+	printf("outstanding_reply is set to %d\n", outstanding_reply);
 	for (int i = 1; i <= N; i++) {
 		if (i != me) sendMessage(msgid, i * 10, me, request_number);
 	}
@@ -75,7 +78,7 @@ int sendRequest() {
 	//CRITICAL SECTION;
 	printf("I am now in the CRITICAL SECTION. I will first send a message to print server and then sleep 2s\n", me);
 	sendMessage(msgid, 99, me, 0);
-	sleep(2);
+	sleep(1);
 	//P(semid, 0, -1); // P(mutex);
 	request_CS = FALSE;
 	//V(semid, 0, 1); // V(mutex);

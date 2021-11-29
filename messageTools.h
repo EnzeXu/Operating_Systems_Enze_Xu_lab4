@@ -52,7 +52,7 @@ int removeMessageQueue(int msgid) {
 }
 
 int sendMessage(int msgid, int mtype, int source, int snum) {
-	printf("start sending...\n");
+	//printf("start sending...\n");
 	struct msgbuf sbuf;
 	sbuf.mtype = mtype;
 	sbuf.source = source;
@@ -67,7 +67,7 @@ int sendMessage(int msgid, int mtype, int source, int snum) {
 }
 
 int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
-	printf("start receiving...\n");
+	//printf("start receiving...\n");
 	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf), receiveType, 0) < 0) {
