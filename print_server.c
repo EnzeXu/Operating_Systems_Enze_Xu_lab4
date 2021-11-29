@@ -43,16 +43,11 @@ int main(int argc, char *argv[]) {
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;
 	int current_node = -1;
-	while(times < N * MAXREQUEST * N) {
+	while(times < N * MAXREQUEST) {
 		struct msgbuf sbuf;
 		receiveMessage(msgid, 99, &sbuf);
-		if (sbuf.source != current_node) {
-			if (current_node != -1) printf("--- END OUTPUT FOR NODE %d ---\n\n", current_node);
-			printf("### START OUTPUT FOR NODE %d ###\n", sbuf.source);
-			current_node = sbuf.source;
-		}
-		printf("%d: This is line %d!\n", current_node, sbuf.snum);
-		times++;
+		printf("%s", sbuf.mtext);
+		if (sbuf.snum == -1) times++;
 	}
 	printf("--- END OUTPUT FOR NODE %d ---\n\n", current_node);
 	

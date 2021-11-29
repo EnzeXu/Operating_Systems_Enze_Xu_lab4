@@ -68,7 +68,7 @@ void *listenReply() {
 int sendRequest() {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
-	usleep(randomInt(1000000));
+	usleep(randomInt(500000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
 	request_number = ++highest_request_number;
@@ -76,7 +76,10 @@ int sendRequest() {
 	outstanding_reply = N - 1;
 	printf("[Node %d] outstanding_reply is reset to %d\n", me, outstanding_reply);
 	for (int i = 1; i <= N; i++) {
-		if (i != me) sendMessage(msgid, i * 10, me, request_number, empty);
+		if (i != me) {
+			sendMessage(msgid, i * 10, me, request_number, empty);
+			printf("[Node %d] I sent a request to node %d\n", me, i);
+		}
 	}
 	// wait for replies 
 	while (outstanding_reply != 0) {
@@ -85,10 +88,20 @@ int sendRequest() {
 	}
 	//CRITICAL SECTION;
 	printf("[Node %d] I am now in the CRITICAL SECTION. I will send some lines to the print server\n", me);
-	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 99, me, i, empty);
-		//usleep(1000);
+	char str_start[MAXSIZE];
+	sprintf(str_start, "### START OUTPUT FOR NODE %d ###\n", me);
+	sendMessage(msgid, 99, me, 0, str_start);
+	int sentence_num = randomInt(10) + 5;
+	for (int i = 1; i <= sentence_num; ++i) {
+		char str_tmp[MAXSIZE];
+		sprintf(str_tmp, "%d: This is line %d!\n", me, i);
+		sendMessage(msgid, 99, me, 0, str_tmp);
 	}
+	char str_end[MAXSIZE];
+	sprintf(str_end, "--- END OUTPUT FOR NODE %d ---\n\n", me);
+	sendMessage(msgid, 99, me, -1, str_end);
+	
+	printf("[Node %d] I want to quit the CRITICAL SECTION\n", me);
 	//P(semid, 0, -1); // P(mutex);
 	request_CS = FALSE;
 	//V(semid, 0, 1); // V(mutex);
