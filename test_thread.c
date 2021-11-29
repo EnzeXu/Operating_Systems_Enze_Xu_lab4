@@ -4,13 +4,17 @@
 void *fun() {
 	for (int i = 0; i < 10; ++i) {
 		printf("%d ", i);
-		usleep(10);
+		usleep(1);
 	}
 	return (void *)0;
 }
 
 int main() {
 	pthread_t thread1, thread2, thread3;
+	pthread_create(&thread1, NULL, fun, NULL);
+	pthread_create(&thread2, NULL, fun, NULL);
+	pthread_create(&thread3, NULL, fun, NULL);
+	/*
 	if (pthread_create(&thread1, NULL, fun, NULL) < 0) {
 		perror("pthread_create");
 		exit(1);
@@ -23,6 +27,7 @@ int main() {
 		perror("pthread_create");
 		exit(1);
 	}
+	*/
 	pthread_join(thread1, NULL);
 	pthread_join(thread2, NULL);
 	pthread_join(thread3, NULL);
