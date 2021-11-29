@@ -11,13 +11,15 @@ int main(int argc, char *argv[]) {
 	printf("[Print server] print server is node %d\n", me);
 	int msgid = createMessageQueue(PROJ_MSG);
 	printf("[Print server] created msgid = %d successfully\n", msgid);
-	////int semid = createSemid(2, PROJ_SEM_1);
-	// int semid_2 = createSemid(1, PROJ_SEM_2);
-	////printf("creating semid = %d successfully\n", semid);
-	//printf("creating semid_2 = %d successfully\n", semid_2);
-	printf("[Print server] waiting for every node ready...\n");
+	
+	// broadcast to each node the N
+	printf("[Print server] broadcasting ther are %d nodes in the network\n", N);
+	for (int i = 1; i <= N; ++i) {
+		sendMessage(msgid, 150 + i, me, N, empty);
+	}
 	
 	// wait here until every node says he is ready
+	printf("[Print server] waiting for every node ready...\n");
 	int ready[MAXN];
 	memset(ready, 0, sizeof(ready));
 	int flag1;
@@ -39,18 +41,16 @@ int main(int argc, char *argv[]) {
 	
 	// broadcast to each node that they could start
 	for (int i = 1; i <= N; ++i) {
-		sendMessage(msgid, 100 + (N + 1 - i), me, 0, empty);
+		sendMessage(msgid, 100 + i, me, N, empty);
 	}
 	printf("[Print server] finished telling each node they can start\n");
 	int times = 0;
-	int current_node = -1;
 	while(times < N * MAXREQUEST) {
 		struct msgbuf sbuf;
 		receiveMessage(msgid, 99, &sbuf);
 		printf("%s", sbuf.mtext);
 		if (sbuf.snum == -1) times++;
 	}
-	printf("--- END OUTPUT FOR NODE %d ---\n\n", current_node);
 	
 	int goodbye[MAXN];
 	memset(goodbye, 0, sizeof(goodbye));

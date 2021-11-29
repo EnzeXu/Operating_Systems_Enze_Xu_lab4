@@ -108,12 +108,15 @@ int sendRequest(void) {
 int main(int argc, char *argv[]) {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
-	N = atoi(argv[1]);
-	me = atoi(argv[2]);
-	printf("[Node %d] There are %d nodes in the network\n", me, N);
+	//N = atoi(argv[1]);
+	me = atoi(argv[1]);
 	printf("[Node %d] I am node %d\n", me, me);
 	msgid = attachMessageQueue(PROJ_MSG);
 	printf("[Node %d] attached to msgid = %d successfully\n", me, msgid);
+	struct msgbuf sbuf_broadcast_n;
+	receiveMessage(msgid, 150 + me, &sbuf_broadcast_n);
+	N = sbuf_broadcast_n.snum;
+	printf("[Node %d] print server told me there are %d nodes in the network\n", me, N);
 	semid = createSemid(2, me);
 	initSem(semid, 0, 1); //0: semaphore mutex; /* for mutual exclusion to shared variables */
 	initSem(semid, 1, 1); //1: semaphore wait_sem; /* used to wait for all requests */
