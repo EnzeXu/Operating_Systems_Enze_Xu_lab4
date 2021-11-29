@@ -1,12 +1,12 @@
 #include "messageTools.h"
 #include "semaphoreTools.h"
 
-void fun() {
+void *fun() {
 	for (int i = 0; i < 10; ++i) {
 		printf("%d ", i);
 		usleep(10000);
 	}
-	return;
+	return ((void *)0);
 }
 
 int main() {
