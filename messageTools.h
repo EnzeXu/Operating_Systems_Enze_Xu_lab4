@@ -61,7 +61,7 @@ int sendMessage(int msgid, int mtype, int source, int snum, char mtext[]) {
 	strcpy(sbuf.mtext, mtext);
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgsnd(msgid, &sbuf, sizeof(sbuf), IPC_NOWAIT) < 0) {
+	if (msgsnd(msgid, &sbuf, sizeof(sbuf) - sizeof(long), IPC_NOWAIT) < 0) {
 		dieMsg("msgsnd");
 		return -1;
 	}
@@ -72,7 +72,7 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	//printf("start receiving...\n");
 	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
-	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf), receiveType, 0) < 0) {
+	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf) - sizeof(long), receiveType, 0) < 0) {
 		dieMsg("msgrcv");
 		return -1;
 	}
