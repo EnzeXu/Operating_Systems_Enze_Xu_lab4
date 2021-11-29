@@ -8,7 +8,7 @@ void *fun(void *arg) {
 	for (int i = 0; i < 10; ++i) {
 		k++;
 		printf("%d: %d\n", node, k);
-		//usleep(1);
+		usleep(1);
 	}
 	return (void *)0;
 }
