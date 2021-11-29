@@ -11,6 +11,7 @@
 #include <sys/sem.h>
 #include <sys/wait.h>
 #include <error.h>
+#include <pthread.h>
 
 #define PROJ_MSG 0x0001
 #define PROJ_SEM_1 0x0002
