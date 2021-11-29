@@ -4,7 +4,7 @@
 void *fun() {
 	for (int i = 0; i < 10; ++i) {
 		printf("%d ", i);
-		//usleep(10000);
+		usleep(100);
 	}
 	return (void *)0;
 }
