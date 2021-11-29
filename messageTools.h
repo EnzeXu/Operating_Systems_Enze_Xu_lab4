@@ -12,7 +12,7 @@ int simpleMessageQueue(int flags, int proj);
 int createMessageQueue(int proj);
 int attachMessageQueue(int proj);
 int removeMessageQueue(int msgid);
-int sendMessage(int msgid, int mtype, int source, int snum);
+int sendMessage(int msgid, int mtype, int source, int snum, char *mtext);
 int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf);
 
 void dieMsg(char *s) {
