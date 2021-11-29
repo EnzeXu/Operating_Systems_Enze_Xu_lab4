@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <signal.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>

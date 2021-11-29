@@ -8,11 +8,12 @@ int highest_request_number; /* highest request number seen */
 int outstanding_reply; /* # of outstanding replies */
 int request_CS; /* true when node requests critical section */
 int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to node i */
-//0: semaphore mutex; /* for mutual exclusion to shared variables */
-//1: semaphore wait_sem; /* used to wait for all requests */
-
 int msgid;
 int semid;
+
+int random(int m) {
+	return rand() % m;
+}
 
 /*
 void *fun(void *arg) {
@@ -63,6 +64,7 @@ void *listenReply() {
 }
 
 int sendRequest() {
+	usleep(random(100000));
 	P(semid, 0, -1); // P(mutex);
 	request_CS = TRUE;
 	request_number = ++highest_request_number;
@@ -81,7 +83,7 @@ int sendRequest() {
 	printf("[Node %d] I am now in the CRITICAL SECTION. I will send some lines to the print server\n", me);
 	for (int i = 1; i <= N; ++i) {
 		sendMessage(msgid, 99, me, i);
-		usleep(1000);
+		//usleep(1000);
 	}
 	//P(semid, 0, -1); // P(mutex);
 	request_CS = FALSE;
@@ -156,6 +158,8 @@ int main(int argc, char *argv[]) {
 	pthread_t thread_listen_request, thread_listen_reply;
 	pthread_create(&thread_listen_request, NULL, listenRequest, NULL);
 	pthread_create(&thread_listen_reply, NULL, listenReply, NULL);
+	
+	srand(time(0) + me);
 	
 	request_number = 0;
 	highest_request_number = 0;
