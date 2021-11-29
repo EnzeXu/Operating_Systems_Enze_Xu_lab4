@@ -58,15 +58,19 @@ int sendRequest() {
 */
 int main(int argc, char *argv[]) {
 	N = atoi(argv[1]);
-	printf("There are %d nodes in the network\n", N);
+	printf("[I] There are %d nodes in the network\n", N);
 	me = atoi(argv[2]);
 	printf("I am node %d\n", me);
 	msgid = attachMessageQueue(PROJ_MSG);
-	printf("node %d attaching to msgid = %d successfully\n", me, msgid);
+	printf("[I] node %d attaching to msgid = %d successfully\n", me, msgid);
 	//semid = createSemid(2);
 	//request_number = 0;
 	//highest_request_number = 0;
 	sendMessage(msgid, 90, me, 0);
-	printf("finished sending ready message\n");
+	printf("[Node 99] finished sending ready message, waiting for the starting signal from print server...\n");
+	struct msgbuf sbuf_start;
+	receiveMessage(msgid, 100 + me, &sbuf_start);
+	printf("[Node 99] print server told me I can start!\n");
+	
 	return 0;
 }

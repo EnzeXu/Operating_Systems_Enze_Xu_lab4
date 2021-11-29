@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 	//printf("creating semid_2 = %d successfully\n", semid_2);
 	printf("waiting for every node ready...\n");
 	
+	// wait here until every node says he is ready
 	pid_t pid_ready = fork();
 	if (pid_ready == 0) {
 		int ready[MAXN];
@@ -41,6 +42,12 @@ int main(int argc, char *argv[]) {
 	}
 	printf("All nodes are ready!\n");
 	
+	// broadcast to each node that they could start
+	for (int i = 1; i <= N; ++i) {
+		sendMessage(msgid, 100 + i, me, 0);
+	}
+	printf("finished telling each node they can start\n");
+		
 	removeMessageQueue(msgid);
 	removeSem(semid);
 	//removeSem(semid, 1);
