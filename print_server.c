@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	int me = 99;
 	printf("[Print server] print server is node %d\n", me);
 	int msgid = createMessageQueue(PROJ_MSG);
-	printf("[Print server] creating msgid = %d successfully\n", msgid);
+	printf("[Print server] created msgid = %d successfully\n", msgid);
 	////int semid = createSemid(2, PROJ_SEM_1);
 	// int semid_2 = createSemid(1, PROJ_SEM_2);
 	////printf("creating semid = %d successfully\n", semid);

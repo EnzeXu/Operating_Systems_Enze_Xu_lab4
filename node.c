@@ -149,11 +149,11 @@ int main(int argc, char *argv[]) {
 	printf("[Node %d] There are %d nodes in the network\n", me, N);
 	printf("[Node %d] I am node %d\n", me, me);
 	msgid = attachMessageQueue(PROJ_MSG);
-	printf("[Node %d] attaching to msgid = %d successfully\n", me, msgid);
+	printf("[Node %d] attached to msgid = %d successfully\n", me, msgid);
 	semid = createSemid(2, me);
 	initSem(semid, 0, 1); //0: semaphore mutex; /* for mutual exclusion to shared variables */
 	initSem(semid, 1, 1); //1: semaphore wait_sem; /* used to wait for all requests */
-	printf("[Node %d] creating semid = %d successfully\n", me, semid);
+	printf("[Node %d] created semid = %d successfully\n", me, semid);
 	
 	pthread_t thread_listen_request, thread_listen_reply;
 	pthread_create(&thread_listen_request, NULL, listenRequest, NULL);
@@ -178,6 +178,7 @@ int main(int argc, char *argv[]) {
 	}
 	pthread_join(thread_listen_request, NULL);
 	pthread_join(thread_listen_reply, NULL);
+	printf("[Node %d] ", me);
 	removeSem(semid);
 	//say good bye to print server
 	sendMessage(msgid, 100 + 99, me, 0);
