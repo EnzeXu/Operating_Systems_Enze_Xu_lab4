@@ -1,6 +1,10 @@
 #include "messageTools.h"
 #include "semaphoreTools.h"
 
+void *listenRequest(void);
+void *listenReply(void);
+int sendRequest(void);
+
 int me; /* my node number */
 int N; /* number of nodes */
 int request_number; /* nodes sequence number */
@@ -11,7 +15,7 @@ int reply_deferred[MAXN]; /* reply_deferred[i] is true when node defers reply to
 int msgid;
 int semid;
 
-void *listenRequest() {
+void *listenRequest(void) {
 	printf("[Node %d] listenRequest thread is set up\n", me);
 	char empty[MAXSIZE];
 	empty[0] = '\0';
@@ -36,7 +40,7 @@ void *listenRequest() {
 	return (void *)0;
 }
 
-void *listenReply() {
+void *listenReply(void) {
 	printf("[Node %d] listenReply thread is set up\n", me);
 	int z = (N - 1) * MAXREQUEST;
 	while(z--) {
@@ -50,7 +54,7 @@ void *listenReply() {
 	return (void *)0;
 }
 
-int sendRequest() {
+int sendRequest(void) {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
 	//usleep(randomInt(500000));
@@ -71,19 +75,20 @@ int sendRequest() {
 		P(semid, 1, -1); // P(wait_sem);
 		// printf("In sendRequest, now outstanding_reply = %d\n", outstanding_reply);
 	}
-	//CRITICAL SECTION;
+	
+	//CRITICAL SECTION !!!!!!
 	printf("[Node %d] I am now in the CRITICAL SECTION. I will send some lines to the print server\n", me);
 	char str_start[MAXSIZE];
 	sprintf(str_start, "### START OUTPUT FOR NODE %d ###\n", me);
 	sendMessage(msgid, 99, me, 0, str_start);
-	int sentence_num = randomInt(10) + 5;
+	int sentence_num = randomInt(10) + 2;
 	for (int i = 1; i <= sentence_num; ++i) {
 		char str_tmp[MAXSIZE];
 		sprintf(str_tmp, "%d: This is line %d!\n", me, i);
 		sendMessage(msgid, 99, me, 0, str_tmp);
 	}
 	char str_end[MAXSIZE];
-	sprintf(str_end, "--- END OUTPUT FOR NODE %d ---\n\n", me);
+	sprintf(str_end, "--- END OUTPUT FOR NODE %d ---\n", me);
 	sendMessage(msgid, 99, me, -1, str_end);
 	
 	printf("[Node %d] I want to quit the CRITICAL SECTION\n", me);
