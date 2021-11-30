@@ -1,5 +1,6 @@
 #include "messageTools.h"
 #include "semaphoreTools.h"
+#include "sharedMemoryTools.h"
 
 void *listenRequest(void);
 void *listenReply(void);
