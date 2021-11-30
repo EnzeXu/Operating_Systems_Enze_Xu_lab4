@@ -2,7 +2,6 @@
 
 int main() {
 	char *addr;
-	int i = 0;
 	int shmid = GetShm(1024, 0x0001);
 	addr = shmat(shmid, NULL, 0);
 	printf("checkpoint1\n");
