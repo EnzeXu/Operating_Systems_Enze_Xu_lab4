@@ -1,8 +1,8 @@
 #include "messageTools.h"
 
 int main(int argc, char *argv[]) {
-	char empty[MAXSIZE];
-	empty[0] = '\0';
+	//char empty[MAXSIZE];
+	//empty[0] = '\0';
 	int N = atoi(argv[1]);
 	printf("[Server] there are %d nodes in the network\n", N);
 	int me = 99;
@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
 	int msgid = createMessageQueue(PROJ_MSG);
 	printf("[Server] created msgid = %d successfully\n", msgid);
 	
+	/*
 	// broadcast to each node the N
 	printf("[Server] broadcasting there are %d nodes in the network\n", N);
 	for (int i = 1; i <= N; ++i) {
@@ -44,14 +45,15 @@ int main(int argc, char *argv[]) {
 		sendMessage(msgid, 100 + ((z - i) % N) + 1, me, N, empty);
 	}
 	printf("[Server] finished telling each node they can start\n");
+	*/
 	int times = 0;
 	while(times < N * MAXREQUEST) {
 		struct msgbuf sbuf;
-		receiveMessage(msgid, 99, &sbuf);
-		printf("%s", sbuf.mtext);
+		receiveMessagePrint(msgid, 99, &sbuf);
+		printf("%s", sbuf.text);
 		if (sbuf.snum == -1) times++;
 	}
-	
+	/*
 	int goodbye[MAXN];
 	memset(goodbye, 0, sizeof(goodbye));
 	int flag2;
@@ -70,6 +72,7 @@ int main(int argc, char *argv[]) {
 		if (flag2) break;
 	}
 	sleep(1);
+	*/
 	removeMessageQueue(msgid);
 	printf("[Server] removed msgid = %d successfully\n", msgid);
 	printf("[Server] nodes and I finished all the job. Good-bye!\n");

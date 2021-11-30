@@ -4,7 +4,12 @@ struct msgbuf {
 	long mtype;
 	int source;
 	int snum;
-	char mtext[MAXSIZE];
+	//char mtext[MAXSIZE];
+};
+
+struct print_msgbuf {
+	long mtype;
+	char text[255];
 };
 
 void dieMsg(char *s);
@@ -26,17 +31,21 @@ int randomInt(int k) {
 }
 
 int simpleMessageQueue(int flags, int proj) {
+	/*
 	key_t key = ftok(".", proj);
 	if (key < 0) {
 		dieMsg("ftok");
 		return -1;
 	}
+	*/
+	key_t key = 123;
 	int msgid = msgget(key, flags);
 	if (msgid < 0) {
 		dieMsg("msgget");
 		return -1;
 	}
 	return msgid;
+	
 }
 
 // IPC_CREAT | IPC_EXCL: create exclusive, fails if resource exists
@@ -57,12 +66,29 @@ int removeMessageQueue(int msgid) {
 	return 0;
 }
 
-int sendMessage(int msgid, int mtype, int source, int snum, char mtext[]) {
+int sendMessage(int msgid, int mtype, int source, int snum) {
 	//printf("start sending...\n");
 	struct msgbuf sbuf;
 	sbuf.mtype = mtype;
 	sbuf.source = source;
 	sbuf.snum = snum;
+	//strcpy(sbuf.mtext, mtext);
+	// strcpy(sbuf.mtext, msg);
+	// size_t buflen = strlen(sbuf.mtext) + 1;;
+	usleep(randomInt(1000000));
+	if (msgsnd(msgid, &sbuf, sizeof(sbuf) - sizeof(long), IPC_NOWAIT) < 0) {
+		dieMsg("msgsnd");
+		return -1;
+	}
+	return 0;
+}
+
+int sendMessagePrint(int msgid, int mtype, char mtext[]) {
+	//printf("start sending...\n");
+	struct print_msgbuf sbuf;
+	sbuf.mtype = mtype;
+	//sbuf.source = source;
+	//sbuf.snum = snum;
 	strcpy(sbuf.mtext, mtext);
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;;
@@ -79,6 +105,23 @@ int receiveMessage(int msgid, int receiveType, struct msgbuf *outputBuf) {
 	//struct msgbuf sbuf;
 	//size_t buflen = strlen(sbuf.mtext) + 1;
 	if (msgrcv(msgid, outputBuf, sizeof(struct msgbuf) - sizeof(long), receiveType, 0) < 0) {
+		dieMsg("msgrcv");
+		return -1;
+	}
+	//printf("here\n");
+	//*outputBuf = sbuf;
+	//outputBuf->mtype = sbuf.mtype;
+	//outputBuf->source = sbuf.source;
+	//outputBuf->snum = sbuf.snum;
+	//strcpy(outputBuf, sbuf.mtext);
+	return 0;
+}
+
+int receiveMessagePrint(int msgid, int receiveType, struct print_msgbuf *outputBuf) {
+	//printf("start receiving...\n");
+	//struct msgbuf sbuf;
+	//size_t buflen = strlen(sbuf.mtext) + 1;
+	if (msgrcv(msgid, outputBuf, sizeof(struct print_msgbuf) - sizeof(long), receiveType, 0) < 0) {
 		dieMsg("msgrcv");
 		return -1;
 	}
