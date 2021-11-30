@@ -1,44 +1,42 @@
 #include "basicTools.h"
 
-int CreateShm(int size, int proj);
-int DestroyShm(int shmid);
-int GetShm(int size, int proj);
+void dieShm(char *s);
+int createShm(int size, int proj);
+int removeShm(int shmid);
+int attachShm(int size, int proj);
 
-static int CommonShm(int size, int flags, int proj)
-{
-	key_t key;
-	int shmid = 0;
-	
-	if((key = ftok(".", proj)) < 0){
-		perror("ftok");
+void dieShm(char *s) {
+	perror(s);
+	exit(1);
+}
+
+int simpleShm(int size, int flags, int proj) {
+	key_t key = ftok(".", proj);
+	if (key < 0) {
+		dieShm("ftok");
 		return -1;
 	}
-	
-	if((shmid = shmget(key,size,flags)) < 0){
-		perror("shnget");
-		return -2;
+	int shmid = shmget(key, size, flags);
+	if (shmid < 0) {
+		dieShm("shnget");
+		return -1;
 	}
-	
 	return shmid;
 }
 
-//创建共享内存
-int CreateShm(int size, int proj) {
-	return CommonShm(size, IPC_CREAT | IPC_EXCL | 0666, proj);
+int createShm(int size, int proj) {
+	return simpleShm(size, IPC_CREAT | IPC_EXCL | 0666, proj);
 }
 
-//删除共享内存
-int DestroyShm(int shmid) {
+int attachShm(int size, int proj) {
+	return simpleShm(size, IPC_CREAT, proj);
+}
+
+int removeShm(int shmid) {
 	if(shmctl(shmid, IPC_RMID, NULL) < 0){
-		perror("shmctl");
+		dieShm("shmctl");
 		return -1;
 	}
 	return 0;
 }
 
-
-//已存在共享内存，获取shmid
-int GetShm(int size, int proj)
-{
-	return CommonShm(size, IPC_CREAT, proj);
-}

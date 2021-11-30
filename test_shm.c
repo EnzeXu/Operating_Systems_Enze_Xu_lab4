@@ -1,7 +1,7 @@
 #include "sharedMemoryTools.h"
 
 int main() {
-	int shmid = CreateShm(128, 0x0001);
+	int shmid = createShm(128, 0x0001);
 	int *addr = (int*) shmat(shmid, NULL, 0);
 	printf("Parent Shared Memory: %p\n", addr);
 	//printf("checkpoint1\n");
@@ -15,11 +15,11 @@ int main() {
 		*/
 		//printf("checkpoint2\n");
 		int shmid;
-		shmid = GetShm(128, 0x0001);
+		shmid = attachShm(128, 0x0001);
 		int *addr1 = (int*) shmat(shmid, NULL, 0);
 		printf("Child Shared Memory: %p\n", addr1);
 		int i = 0;
-		//shmid = GetShm(1024, 0x0001);
+		//shmid = attachShm(1024, 0x0001);
 		//addr = shmat(shmid, NULL, 0);
 		int z = 50;
 		while (z--) {
@@ -53,7 +53,7 @@ int main() {
 	int status1, status2; 
 	waitpid(pid1, &status1, 0); 
 	shmdt(addr);
-	DestroyShm(shmid);
+	removeShm(shmid);
 	//printf("checkpoint5\n");
 	//waitpid(pid2, &status2, 0); 
 	return 0;

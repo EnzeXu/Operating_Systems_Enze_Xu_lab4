@@ -20,7 +20,7 @@
 //#define PROJ_SEM_2 0x0003
 #define REQUEST 0
 #define REPLY 1
-#define MAXSIZE 128
+#define MAXSIZE 1024
 #define MAXN 64
 #define MAXREQUEST 10
 #define FALSE 0

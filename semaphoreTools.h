@@ -24,13 +24,16 @@ void dieSem(char *s) {
 
 int simpleSemid(int num, int flags, int proj) {
 	key_t key = ftok(".", proj);
-	if (key > 0) {
-		return semget(key, num, flags);
-	}
-	else {
-		dieSem("simpleSemid");
+	if (key < 0) {
+		dieSem("ftok");
 		return -1;
 	}
+	int semid = semget(key, num, flags);
+	if (semid < 0) {
+		dieSem("semget");
+		return -1;
+	}
+	return semid;
 }
 
 int createSemid(int nums, int proj) {
