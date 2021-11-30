@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
 	*/
 	int times = 0;
 	while(times < N * MAXREQUEST) {
-		struct msgbuf sbuf;
+		struct print_msgbuf sbuf;
 		receiveMessagePrint(msgid, 99, &sbuf);
 		printf("%s", sbuf.text);
-		if (sbuf.snum == -1) times++;
+		//if (sbuf.snum == -1) times++;
 	}
 	/*
 	int goodbye[MAXN];
