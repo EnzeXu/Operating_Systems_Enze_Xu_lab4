@@ -2,16 +2,16 @@ cc = gcc
 all: server node hacker
 .PHONY: clean
 
-server: print_server.c messageTools.h semaphoreTools.h basicTools.h sharedMemoryTools.h
-	$(cc) -o server print_server.c
-
-node: node.c messageTools.h semaphoreTools.h basicTools.h sharedMemoryTools.h
+node: node.c messageTools.h semaphoreTools.h sharedMemoryTools.h basicTools.h
 	$(cc) -o node node.c
 
-hacker: hacker.c messageTools.h semaphoreTools.h basicTools.h sharedMemoryTools.h
+server: print_server.c messageTools.h basicTools.h
+	$(cc) -o server print_server.c
+
+hacker: hacker.c messageTools.h basicTools.h
 	$(cc) -o hacker hacker.c
 
-clean: 
-	rm server 
+clean:
 	rm node
-	rm hacker 
+	rm server
+	rm hacker

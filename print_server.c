@@ -1,5 +1,4 @@
 #include "messageTools.h"
-#include "semaphoreTools.h"
 
 int main(int argc, char *argv[]) {
 	char empty[MAXSIZE];
@@ -72,8 +71,6 @@ int main(int argc, char *argv[]) {
 	}
 	sleep(2);
 	removeMessageQueue(msgid);
-	////removeSem(semid);
-	//removeSem(semid, 1);
 	printf("[Print server] nodes and I finished all the job. Good-bye!\n");
 	return 0;
 }

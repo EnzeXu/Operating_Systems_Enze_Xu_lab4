@@ -1,5 +1,4 @@
 #include "messageTools.h"
-#include "semaphoreTools.h"
 
 int main() {
 	int msgid = attachMessageQueue(PROJ_MSG);
