@@ -91,20 +91,20 @@ int sendRequest(void) {
 	
 	char str_start[MAXSIZE];
 	sprintf(str_start, "### START OUTPUT FOR NODE %d ###\n", me);
-	sendMessagePrint(msgid, 99, me, 0, str_start);
+	sendMessagePrint(msgid, 99, str_start);
 	usleep(randomInt(300000));
 	
 	int sentence_num = randomInt(10) + 2;
 	for (int i = 1; i <= sentence_num; ++i) {
 		char str_tmp[MAXSIZE];
 		sprintf(str_tmp, "%d: This is line %d!\n", me, i);
-		sendMessagePrint(msgid, 99, me, 0, str_tmp);
+		sendMessagePrint(msgid, 99, str_tmp);
 		usleep(randomInt(300000));
 	}
 	
 	char str_end[MAXSIZE];
 	sprintf(str_end, "--- END OUTPUT FOR NODE %d ---\n", me);
-	sendMessagePrint(msgid, 99, me, 0, str_end);
+	sendMessagePrint(msgid, 99, str_end);
 	usleep(randomInt(300000));
 	
 	printf("[Node %d] I want to quit the CRITICAL SECTION\n", me);
