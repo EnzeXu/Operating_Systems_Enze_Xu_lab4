@@ -11,7 +11,7 @@ int main() {
 		ssize_t s = read(0, buf, sizeof(buf));
 		if (s > 0) {
 			buf[s] = '\0';
-			sendMessage(msgid, 99, me, 0, buf);
+			sendMessagePrint(msgid, 99, buf);
 		}
 	}
 	return 0;
