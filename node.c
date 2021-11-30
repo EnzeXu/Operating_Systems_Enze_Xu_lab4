@@ -184,8 +184,6 @@ int main(int argc, char *argv[]) {
 	waitpid(pid_listen_request, &status1, 0);
 	waitpid(pid_listen_reply, &status2, 0);
 	
-	printf("[Node %d] ", me);
-	fflush(stdout);
 	removeSem(semid);
 	printf("[Node %d] removed semid = %d successfully\n", me, semid);
 	shmdt(shm_addr);
