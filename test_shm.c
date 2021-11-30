@@ -4,6 +4,7 @@ int main() {
 	char *addr;
 	int shmid = GetShm(1024, 0x0001);
 	addr = shmat(shmid, NULL, 0);
+	addr[0] = '\0';
 	printf("checkpoint1\n");
 	pid_t pid1 = fork();
 	if (pid1 == 0) {
@@ -20,12 +21,13 @@ int main() {
 		//addr = shmat(shmid, NULL, 0);
 		int z = 10;
 		while (z--) {
+			printf("checkpoint2.5\n");
 			addr[i] = 'Z' - i;
 			i++;
-			addr[i] = 0;
+			addr[i] = '\0';
 			sleep(1);
 		}
-		shmdt(addr);
+		//shmdt(addr);
 		exit(0);
 	}
 	/*
@@ -40,13 +42,14 @@ int main() {
 	printf("checkpoint3\n");
 	int z = 10;
 	while (z--) {
+		printf("checkpoint3.5\n");
 		printf("parent: %s\n", addr);
 		sleep(1);
 	}
 	printf("checkpoint4\n");
-	shmdt(addr);
 	int status1, status2; 
 	waitpid(pid1, &status1, 0); 
+	shmdt(addr);
 	DestroyShm(shmid);
 	printf("checkpoint5\n");
 	//waitpid(pid2, &status2, 0); 
