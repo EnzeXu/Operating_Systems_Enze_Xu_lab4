@@ -27,7 +27,7 @@ int main() {
 			addr1[i] = i;
 			i++;
 			//addr1[i] = '\0';
-			usleep(500000);
+			usleep(450000);
 		}
 		shmdt(addr);
 		exit(0);
