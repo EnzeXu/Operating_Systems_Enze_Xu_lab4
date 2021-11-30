@@ -21,7 +21,7 @@ int main() {
 		int i = 0;
 		//shmid = GetShm(1024, 0x0001);
 		//addr = shmat(shmid, NULL, 0);
-		int z = 5;
+		int z = 50;
 		while (z--) {
 			//printf("checkpoint2.5\n");
 			addr1[0] += 1;
@@ -42,7 +42,7 @@ int main() {
 	}
 	*/
 	//printf("checkpoint3\n");
-	int z = 5;
+	int z = 50;
 	while (z--) {
 		//printf("checkpoint3.5\n");
 		addr[0] += 1;
