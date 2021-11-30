@@ -27,7 +27,7 @@ int main() {
 			addr1[0] += 1;
 			printf("child: %d\n", addr1[0]);
 			//addr1[i] = '\0';
-			usleep(1);
+			//usleep(1);
 		}
 		shmdt(addr);
 		exit(0);
@@ -47,7 +47,7 @@ int main() {
 		//printf("checkpoint3.5\n");
 		addr[0] += 1;
 		printf("parent: %d\n", addr[0]);
-		usleep(1);
+		//usleep(1);
 	}
 	//printf("checkpoint4\n");
 	int status1, status2; 
