@@ -1,11 +1,11 @@
 #include "sharedMemoryTools.h"
 
 int main() {
-	char *addr;
-	int shmid = GetShm(1024, 0x0001);
-	addr = shmat(shmid, NULL, 0);
-	addr[0] = '\0';
+	int shmid = GetShm(128, 0x0001);
+	char *addr = (char*)shmat(shmid, NULL, 0);
+	printf("Shared Memory: %p\n", addr);     
 	printf("checkpoint1\n");
+	addr[0] = '\0';
 	pid_t pid1 = fork();
 	if (pid1 == 0) {
 		/*
@@ -27,7 +27,7 @@ int main() {
 			addr[i] = '\0';
 			sleep(1);
 		}
-		//shmdt(addr);
+		shmdt(addr);
 		exit(0);
 	}
 	/*
