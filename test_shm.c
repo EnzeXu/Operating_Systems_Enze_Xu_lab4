@@ -15,16 +15,16 @@ int main() {
 		*/
 		printf("checkpoint2\n");
 		int shmid;
-		char *addr;
+		char *addr1 = (char*)shmat(shmid, NULL, 0);;
 		int i = 0;
 		//shmid = GetShm(1024, 0x0001);
 		//addr = shmat(shmid, NULL, 0);
-		int z = 10;
+		int z = 5;
 		while (z--) {
 			printf("checkpoint2.5\n");
-			addr[i] = 'Z' - i;
+			addr1[i] = 'Z' - i;
 			i++;
-			addr[i] = '\0';
+			addr1[i] = '\0';
 			sleep(1);
 		}
 		shmdt(addr);
@@ -40,7 +40,7 @@ int main() {
 	}
 	*/
 	printf("checkpoint3\n");
-	int z = 10;
+	int z = 5;
 	while (z--) {
 		printf("checkpoint3.5\n");
 		printf("parent: %s\n", addr);
