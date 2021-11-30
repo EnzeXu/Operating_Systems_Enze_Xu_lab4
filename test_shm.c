@@ -1,9 +1,9 @@
 #include "sharedMemoryTools.h"
 
 int main() {
-	int shmid = GetShm(128, 0x0001);
+	int shmid = CreateShm(128, 0x0001);
 	char *addr = (char*)shmat(shmid, NULL, 0);
-	printf("Shared Memory: %p\n", addr);     
+	printf("Parent Shared Memory: %p\n", addr);
 	printf("checkpoint1\n");
 	addr[0] = '\0';
 	pid_t pid1 = fork();
@@ -15,7 +15,9 @@ int main() {
 		*/
 		printf("checkpoint2\n");
 		int shmid;
-		char *addr1 = (char*)shmat(shmid, NULL, 0);;
+		shmid = GetShm(128, 0x0001);
+		char *addr1 = (char*)shmat(shmid, NULL, 0);
+		printf("Child Shared Memory: %p\n", addr1);
 		int i = 0;
 		//shmid = GetShm(1024, 0x0001);
 		//addr = shmat(shmid, NULL, 0);
