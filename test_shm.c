@@ -46,7 +46,7 @@ int main() {
 	while (z--) {
 		//printf("checkpoint3.5\n");
 		addr[0] += 1;
-		printf("child: %d\n", addr[0]);
+		printf("parent: %d\n", addr[0]);
 		usleep(1);
 	}
 	//printf("checkpoint4\n");
