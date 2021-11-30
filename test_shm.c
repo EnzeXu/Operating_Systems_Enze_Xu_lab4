@@ -2,10 +2,10 @@
 
 int main() {
 	int shmid = CreateShm(128, 0x0001);
-	char *addr = (char*)shmat(shmid, NULL, 0);
+	int *addr = (int*) shmat(shmid, NULL, 0);
 	printf("Parent Shared Memory: %p\n", addr);
 	printf("checkpoint1\n");
-	addr[0] = '\0';
+	//addr[0] = '\0';
 	pid_t pid1 = fork();
 	if (pid1 == 0) {
 		/*
@@ -16,7 +16,7 @@ int main() {
 		printf("checkpoint2\n");
 		int shmid;
 		shmid = GetShm(128, 0x0001);
-		char *addr1 = (char*)shmat(shmid, NULL, 0);
+		int *addr1 = (int*) shmat(shmid, NULL, 0);
 		printf("Child Shared Memory: %p\n", addr1);
 		int i = 0;
 		//shmid = GetShm(1024, 0x0001);
@@ -24,10 +24,10 @@ int main() {
 		int z = 5;
 		while (z--) {
 			printf("checkpoint2.5\n");
-			addr1[i] = 'Z' - i;
+			addr1[i] = i;
 			i++;
-			addr1[i] = '\0';
-			sleep(1);
+			//addr1[i] = '\0';
+			usleep(500000);
 		}
 		shmdt(addr);
 		exit(0);
@@ -45,8 +45,8 @@ int main() {
 	int z = 5;
 	while (z--) {
 		printf("checkpoint3.5\n");
-		printf("parent: %s\n", addr);
-		sleep(1);
+		printf("parent: %d %d %d %d %d\n", addr[0], addr[1], addr[2], addr[3], addr[4]);
+		usleep(500000);
 	}
 	printf("checkpoint4\n");
 	int status1, status2; 
