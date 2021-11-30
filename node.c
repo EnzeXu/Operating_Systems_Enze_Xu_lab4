@@ -2,8 +2,8 @@
 #include "semaphoreTools.h"
 #include "sharedMemoryTools.h"
 
-void *listenRequest(void);
-void *listenReply(void);
+int listenRequest(void);
+int listenReply(void);
 int sendRequest(void);
 
 int me; /* my node number */
@@ -181,8 +181,8 @@ int main(int argc, char *argv[]) {
 	// pthread_join(thread_listen_request, NULL);
 	// pthread_join(thread_listen_reply, NULL);
 	int status1, status2; 
-	waitpid(pid1, &status1, 0);
-	waitpid(pid1, &status2, 0);
+	waitpid(pid_listen_request, &status1, 0);
+	waitpid(pid_listen_reply, &status2, 0);
 	
 	printf("[Node %d] ", me);
 	fflush(stdout);
