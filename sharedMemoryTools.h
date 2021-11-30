@@ -1,8 +1,8 @@
 #include "basicTools.h"
 
-int CreateShm(int size);
+int CreateShm(int size, int proj);
 int DestroyShm(int shmid);
-int GetShm(int size);
+int GetShm(int size, int proj);
 
 static int CommonShm(int size, int flags, int proj)
 {
@@ -38,7 +38,7 @@ int DestroyShm(int shmid) {
 
 
 //已存在共享内存，获取shmid
-int GetShm(int size)
+int GetShm(int size, int proj)
 {
-	return CommonShm(size, IPC_CREAT);
+	return CommonShm(size, IPC_CREAT, proj);
 }
