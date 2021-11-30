@@ -89,7 +89,7 @@ int sendMessagePrint(int msgid, int mtype, char mtext[]) {
 	sbuf.mtype = mtype;
 	//sbuf.source = source;
 	//sbuf.snum = snum;
-	strcpy(sbuf.mtext, mtext);
+	strcpy(sbuf.text, mtext);
 	// strcpy(sbuf.mtext, msg);
 	// size_t buflen = strlen(sbuf.mtext) + 1;;
 	usleep(randomInt(30000));
