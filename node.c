@@ -124,10 +124,11 @@ int sendRequest(void) {
 int main(int argc, char *argv[]) {
 	char empty[MAXSIZE];
 	empty[0] = '\0';
-	N = 3;
-	//N = atoi(argv[1]);
+	//N = 3;
 	me = atoi(argv[1]);
 	printf("[Node %d] I am node %d\n", me, me);
+	N = atoi(argv[2]);
+	printf("[Node %d] There are %d nodes in the network\n", me, N);
 	msgid = attachMessageQueue(PROJ_MSG);
 	printf("[Node %d] attached to msgid = %d successfully\n", me, msgid);
 	/*
